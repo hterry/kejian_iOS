@@ -35,7 +35,8 @@ class MainTabBarItem: UIView{
     func makeItem(){
         self.backgroundColor = UIColor(white: 0, alpha: 1)
         
-        let itemWidth = CGFloat((UIScreen.mainScreen().bounds.width - CGFloat(4*space))/3)
+        //let itemWidth = CGFloat((UIScreen.mainScreen().bounds.width - CGFloat(4*space))/3)
+        let itemWidth = CGFloat((UIScreen.mainScreen().bounds.width - CGFloat(3*space))/2)
         
         NSLog("screenWidth:%f", UIScreen.mainScreen().bounds.width)
         NSLog("itemWidth:%f", itemWidth)

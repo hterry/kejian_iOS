@@ -19,7 +19,7 @@ class IndexTableViewController: UITableViewController{
     var catid:String = "-1"
     
     var loadingImageView:UIImageView!
-    
+        
     override func viewDidLoad() {
         
         NSLog("IndexTableViewController")
@@ -44,18 +44,17 @@ class IndexTableViewController: UITableViewController{
         self.tableView.rowHeight = 200
         self.automaticallyAdjustsScrollViewInsets = false
         
-        
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadData", name: "articleDataGet", object: nil)
+                NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadData", name: "articleDataGet", object: nil)
         //NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadData", name: "pastDataGet", object: nil)
         
         //appCloud().getRandomData()
         self.tableView.mj_header = MJRefreshNormalHeader(refreshingTarget: self, refreshingAction: "loadTodayData")
+        appCloud().tabelViewHeader = self.tableView.mj_header
         
         self.tableView.mj_footer = MJRefreshAutoNormalFooter(refreshingTarget: self, refreshingAction:"loadMoreData" );
-        
+        appCloud().tabelViewFooter = self.tableView.mj_footer
         //下拉刷新组件
-        loadingImageView = UIImageView(frame: CGRectMake(0, 0,200, 70))
+        loadingImageView = UIImageView(frame: CGRectMake(0, 0,400, 90))
         loadingImageView.sd_setImageWithURL(NSURL(string: "http://www.iflabs.cn/app/hellojames/asset/refresh.gif"))
         loadingImageView.center.x = UIScreen.mainScreen().bounds.width/2
         //loadingImageView.center.y = 0
@@ -78,11 +77,27 @@ class IndexTableViewController: UITableViewController{
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "mutiCellSelect:", name: "mutiCellSelect", object: nil)
         
         appCloud().getArticleData()
+        
         //self.tableView.scrollRectToVisible(CGRectMake(0, 0, 0, 0), animated: false)
         
         //header.hidden=true
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        
+        
+    }
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        
+    }
     
     func loadMoreData(){
         NSLog("loadMoreData")
@@ -90,25 +105,31 @@ class IndexTableViewController: UITableViewController{
         
         //self.tableView.reloadData()
         
-        appCloud().getArticleData(catid)
+        appCloud().getArticleData(catid,type: "getMore")
         
+        BaiduMobStat.defaultStat().logEvent("listGetMore", eventLabel: appCloud().currentCatName)
     }
     
     func loadTodayData(){
-        appCloud().article = []
-        appCloud().getArticleData(catid)
         
+        appCloud().getArticleData(catid,type: "refresh")
         loadingImageView.hidden = false
+        
+        BaiduMobStat.defaultStat().logEvent("listRefresh", eventLabel: appCloud().currentCatName)
     }
     
     
     func reloadData(){
         NSLog("reloadData")
+        
+        BaiduMobStat.defaultStat().pageviewStartWithName((appCloud().currentCatName+"列表"))
+        
         self.tableView.reloadData()
         
         NSTimer.scheduledTimerWithTimeInterval(0.1, target:self, selector:"endRefreshing:", userInfo:nil, repeats:false)
         
-         NSTimer.scheduledTimerWithTimeInterval(0.5, target:self, selector:"hideLoading", userInfo:nil, repeats:false)
+        NSTimer.scheduledTimerWithTimeInterval(0.5, target:self, selector:"hideLoading", userInfo:nil, repeats:false)
+        
         //timer.fire()
         
         //loadingImageView.hidden = true
@@ -116,7 +137,6 @@ class IndexTableViewController: UITableViewController{
     
     func hideLoading(){
         loadingImageView.hidden = true
-        
     }
     
     func endRefreshing(timer:NSTimer){
@@ -124,14 +144,15 @@ class IndexTableViewController: UITableViewController{
         self.tableView.mj_footer.endRefreshing()
         self.tableView.mj_header.endRefreshing()
         
-        
     }
     
     func catListSelect(sender:NSNotification){
         
         catid = sender.object?.valueForKey("id") as! String
         
+        //loadedArticleList = []
         appCloud().article = []
+        appCloud().lastSingleMuti = -1
         self.tableView.reloadData()
         appCloud().getArticleData(catid);
         
@@ -144,17 +165,16 @@ class IndexTableViewController: UITableViewController{
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         let data = appCloud().article[indexPath.row] as! ArticleModel
-        var num = 50
+        var num:CGFloat = 50
         if (data.showType=="big"){
-            num = 205+5//间距2px
+            num = CGFloat(233)*CGFloat(CGFloat(UIScreen.mainScreen().bounds.width)/CGFloat(375))
         }
         else {
             
-            num = 148+5//间距2px
+            num = CGFloat(142)*CGFloat(CGFloat(UIScreen.mainScreen().bounds.width)/CGFloat(375))
         }
         return CGFloat(num)
     }
-    
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //let num = appCloud().article.count
@@ -176,6 +196,9 @@ class IndexTableViewController: UITableViewController{
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         //取得已读新闻数组以供配置
+        if (appCloud().article.count<=0){
+            return UITableViewCell(frame: CGRectMake(0, 0, 0, 0));
+        }
         NSLog("index:%d", indexPath.row)
         let readNewsIdArray = NSUserDefaults.standardUserDefaults().objectForKey(Keys.readNewsId) as! [String]
         
@@ -184,14 +207,23 @@ class IndexTableViewController: UITableViewController{
         let data = appCloud().article[newIndex] as! ArticleModel
         let cell = tableView.dequeueReusableCellWithIdentifier("indexTableBigCellView") as! IndexTableBigCellView
         
-        NSLog("showType:%@", data.showType)
-        NSLog("showType:%@", data.title)
+        //NSLog("showType:%@", data.showType)
+        //NSLog("showType:%@", data.title)
         if (data.showType == "big"){
             cell.bgcolor=data.bgcolor
             cell.changeBgcolor()
+            cell.titleLabel4.text = data.catName
             cell.setTitle(data.subTitle1,title2:data.subTitle2,title3:data.subTitle3,titleAll:data.title)
             //NSLog("thumb:%@", data.thumb)
-            cell.imagesView.sd_setImageWithURL(NSURL(string:data.thumb))
+            
+            
+            if (!checkArticleLoaded(data.id)){
+                cell.firstLoad = false
+            }
+            
+            cell.loadImage(data.thumb)
+            
+            appCloud().loadedArticleList.append(data.id)
             //cell.imagesView.image?.sd_animatedImageByScalingAndCroppingToSize(cell.imagesView.frame.size)
         }
         else {
@@ -205,14 +237,35 @@ class IndexTableViewController: UITableViewController{
             mutiView1.label.text=data.title
             mutiView2.label.text=data.title2
             
+            mutiView1.catLabel.text=data.catName
+            mutiView2.catLabel.text=data.catName2
+            
             mutiView1.newsId=data.id
             mutiView2.newsId=data.id2
             
-            mutiView1.img.sd_setImageWithURL(NSURL(string:data.thumb))
-            mutiView2.img.sd_setImageWithURL(NSURL(string:data.thumb2))
-            if (data.title2==""){
+            if (!checkArticleLoaded(data.id)){
+                mutiView1.firstLoad = false
+            }
+            
+            if (!checkArticleLoaded(data.id)){
+                mutiView2.firstLoad = false
+            }
+            
+            mutiView1.loadImage(data.thumb)
+            mutiView2.loadImage(data.thumb2)
+            
+            appCloud().loadedArticleList.append(data.id)
+            if (data.id2=="-1"){
                 
+                mutiView2.backgroundColor = UIColor.blackColor()
                 //NSLog("picurl:%@", data.images2[0])
+            }
+            else{
+                if (!checkArticleLoaded(data.id)){
+                    mutiView2.img.alpha = 0
+                }
+                appCloud().loadedArticleList.append(data.id2)
+                mutiView2.backgroundColor = UIColor.whiteColor()
             }
             return cell
         }
@@ -224,14 +277,49 @@ class IndexTableViewController: UITableViewController{
         return cell
     }
     
+    func checkArticleLoaded(id:String)->Bool{
+        var bn = false
+        
+        for i in 0 ..< appCloud().loadedArticleList.count{
+            if (appCloud().loadedArticleList[i] == id){
+                bn = true
+                break
+            }
+        }
+        
+        return bn
+    }
+    
+    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        /*if tableView.cellForRowAtIndexPath(indexPath) is IndexTableBigCellView  {
+            let myCell = cell  as! IndexTableBigCellView
+            myCell.imagesView.alpha=0
+        }
+        
+        if tableView.cellForRowAtIndexPath(indexPath) is IndexTableSmallCellView  {
+            let myCell = cell  as! IndexTableSmallCellView
+            myCell.cellView1.img.alpha=0
+            myCell.cellView2.img.alpha=0
+        }*/
+        
+    }
+    
+    override func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        
+    }
+    
     //tableView点击事件
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
         
         //保证点击的是TableContentViewCell
         guard tableView.cellForRowAtIndexPath(indexPath) is IndexTableBigCellView else {
             return
         }
+        BaiduMobStat.defaultStat().logEvent("BigCellSelect", eventLabel: appCloud().currentCatName)
         
+        BaiduMobStat.defaultStat().pageviewStartWithName("从"+appCloud().currentCatName+"进入文章")
+        BaiduMobStat.defaultStat().pageviewEndWithName("从"+appCloud().currentCatName+"进入文章")
         NSLog("indexCellSelect")
         //拿到webViewController
         let webViewController = self.storyboard?.instantiateViewControllerWithIdentifier("webViewController") as!WebViewController
@@ -239,27 +327,8 @@ class IndexTableViewController: UITableViewController{
         let newIndex = indexPath.row
         let id = (appCloud().article[newIndex] as! ArticleModel).id
         webViewController.newsId = id
+        webViewController.newsTitle = appCloud().article[newIndex].title
         
-        //webViewController.index = indexPath.row
-        
-        //找到对应newsID
-        /*if indexPath.row < appCloud().contentStory.count {
-            let id = appCloud().contentStory[indexPath.row].id
-            webViewController.newsId = id
-        } else {
-            let newIndex = indexPath.row - appCloud().contentStory.count
-            let id = (appCloud().pastContentStory[newIndex] as! ContentStoryModel).id
-            webViewController.newsId = id
-        }*/
-        
-        //取得已读新闻数组以供修改
-        //var readNewsIdArray = NSUserDefaults.standardUserDefaults().objectForKey(Keys.readNewsId) as! [String]
-        
-        //记录已被选中的id
-        //readNewsIdArray.append(webViewController.newsId)
-        //NSUserDefaults.standardUserDefaults().setObject(readNewsIdArray, forKey: Keys.readNewsId)
-        
-        //对animator进行初始化
         animator = ZFModalTransitionAnimator(modalViewController: webViewController)
         self.animator.dragable = true
         self.animator.bounces = false
@@ -310,10 +379,17 @@ class IndexTableViewController: UITableViewController{
     }
     
     @IBAction func mutiCellSelect(sender: NSNotification){
+        BaiduMobStat.defaultStat().logEvent("MutiCellSelect", eventLabel: appCloud().currentCatName)
+        
+        BaiduMobStat.defaultStat().pageviewStartWithName("从"+appCloud().currentCatName+"进入文章")
+        BaiduMobStat.defaultStat().pageviewEndWithName("从"+appCloud().currentCatName+"进入文章")
+        
         
         let webViewController = self.storyboard?.instantiateViewControllerWithIdentifier("webViewController") as!WebViewController
+        let newsInfo:[String] = sender.object as! [String]
+        webViewController.newsId = newsInfo[0]
         
-        webViewController.newsId = sender.object as! String
+        webViewController.newsTitle = newsInfo[1]
         
         //对animator进行初始化
         animator = ZFModalTransitionAnimator(modalViewController: webViewController)
@@ -325,7 +401,7 @@ class IndexTableViewController: UITableViewController{
         self.animator.direction = ZFModalTransitonDirection.Right
         
         //设置webViewController
-        webViewController.transitioningDelegate = self.animator
+        //webViewController.transitioningDelegate = self.animator
         
         
         self.parentViewController?.navigationController?.pushViewController(webViewController,animated: true)

@@ -8,29 +8,47 @@
 
 /* Begin PBXBuildFile section */
 		0C5DDCE33F69616BE4E76EF1 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FB99255B42164E8B2F41314 /* Pods.framework */; };
-		DE1B51B41BFC1EA800436ADE /* IndexTableViewControll.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE1B51B31BFC1EA800436ADE /* IndexTableViewControll.swift */; settings = {ASSET_TAGS = (); }; };
-		DE2616451C02B7D800FFB4C2 /* MainTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE2616441C02B7D800FFB4C2 /* MainTabBarItem.swift */; settings = {ASSET_TAGS = (); }; };
-		DE2AFE281BFF122C00266054 /* MainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE2AFE271BFF122C00266054 /* MainPageViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		DE334E341C0F0D4D00ECC3CF /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE334E311C0F0D4D00ECC3CF /* libWeChatSDK.a */; settings = {ASSET_TAGS = (); }; };
-		DE405E4F1BFAEBAE00AF4DE7 /* SideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE405E4E1BFAEBAE00AF4DE7 /* SideMenuViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		DE405E521BFAED2800AF4DE7 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE405E511BFAED2800AF4DE7 /* MainTabBarController.swift */; settings = {ASSET_TAGS = (); }; };
-		DE405E561BFB35B200AF4DE7 /* IndexTableBigCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE405E551BFB35B200AF4DE7 /* IndexTableBigCellView.swift */; settings = {ASSET_TAGS = (); }; };
-		DE405E581BFB360200AF4DE7 /* IndexTableMutiCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE405E571BFB360200AF4DE7 /* IndexTableMutiCellView.swift */; settings = {ASSET_TAGS = (); }; };
-		DE405E5A1BFB377C00AF4DE7 /* IndexTableMutiCellSingleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE405E591BFB377C00AF4DE7 /* IndexTableMutiCellSingleView.swift */; settings = {ASSET_TAGS = (); }; };
-		DE59B9D41BFD757A00871D36 /* MJDIYHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = DE59B9D31BFD757A00871D36 /* MJDIYHeader.m */; settings = {ASSET_TAGS = (); }; };
-		DE59B9D81BFDC26F00871D36 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE59B9D71BFDC26F00871D36 /* WebViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		DE710ADD1C0FED5E00BD935F /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE710AD11C0FED5E00BD935F /* libWeiboSDK.a */; settings = {ASSET_TAGS = (); }; };
-		DE710ADE1C0FED5E00BD935F /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DE710ADA1C0FED5E00BD935F /* WeiboSDK.bundle */; settings = {ASSET_TAGS = (); }; };
+		DE09BB191C16C0BC0088495A /* AboutusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE09BB181C16C0BC0088495A /* AboutusViewController.swift */; };
+		DE09BB1B1C16C7FC0088495A /* AboutusNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE09BB1A1C16C7FC0088495A /* AboutusNavigation.swift */; };
+		DE1B51B41BFC1EA800436ADE /* IndexTableViewControll.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE1B51B31BFC1EA800436ADE /* IndexTableViewControll.swift */; };
+		DE213D1C1C17C88F005611F7 /* libUMessage_Sdk_1.2.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE213D1A1C17C88F005611F7 /* libUMessage_Sdk_1.2.1.a */; };
+		DE213D211C17CDB3005611F7 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE213D1E1C17CDB3005611F7 /* libMobClickLibrary.a */; };
+		DE213D241C181926005611F7 /* ShopTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE213D231C181926005611F7 /* ShopTableViewController.swift */; };
+		DE213D261C181C20005611F7 /* ShopTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE213D251C181C20005611F7 /* ShopTableViewCell.swift */; };
+		DE2616451C02B7D800FFB4C2 /* MainTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE2616441C02B7D800FFB4C2 /* MainTabBarItem.swift */; };
+		DE2679F61C2BA0EC00A07F65 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE2679F51C2BA0EC00A07F65 /* CoreLocation.framework */; };
+		DE2679F91C2D14E100A07F65 /* SearchNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE2679F81C2D14E100A07F65 /* SearchNavigation.swift */; };
+		DE2679FB1C2D14FD00A07F65 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE2679FA1C2D14FD00A07F65 /* SearchViewController.swift */; };
+		DE2679FD1C2D356B00A07F65 /* SearchTitleCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE2679FC1C2D356B00A07F65 /* SearchTitleCellView.swift */; };
+		DE2679FF1C2D357D00A07F65 /* SearchCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE2679FE1C2D357D00A07F65 /* SearchCellView.swift */; };
+		DE2AFE281BFF122C00266054 /* MainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE2AFE271BFF122C00266054 /* MainPageViewController.swift */; };
+		DE334E341C0F0D4D00ECC3CF /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE334E311C0F0D4D00ECC3CF /* libWeChatSDK.a */; };
+		DE405E4F1BFAEBAE00AF4DE7 /* SideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE405E4E1BFAEBAE00AF4DE7 /* SideMenuViewController.swift */; };
+		DE405E521BFAED2800AF4DE7 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE405E511BFAED2800AF4DE7 /* MainTabBarController.swift */; };
+		DE405E561BFB35B200AF4DE7 /* IndexTableBigCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE405E551BFB35B200AF4DE7 /* IndexTableBigCellView.swift */; };
+		DE405E581BFB360200AF4DE7 /* IndexTableMutiCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE405E571BFB360200AF4DE7 /* IndexTableMutiCellView.swift */; };
+		DE405E5A1BFB377C00AF4DE7 /* IndexTableMutiCellSingleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE405E591BFB377C00AF4DE7 /* IndexTableMutiCellSingleView.swift */; };
+		DE53A05B1C15270600604555 /* libPushSDK-1.8.8.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE53A05A1C15270600604555 /* libPushSDK-1.8.8.a */; };
+		DE53A05D1C15271E00604555 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE53A05C1C15271E00604555 /* CFNetwork.framework */; };
+		DE53A05F1C1527AD00604555 /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = DE53A05E1C1527AD00604555 /* PushConfig.plist */; };
+		DE59B9D41BFD757A00871D36 /* MJDIYHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = DE59B9D31BFD757A00871D36 /* MJDIYHeader.m */; };
+		DE59B9D81BFDC26F00871D36 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE59B9D71BFDC26F00871D36 /* WebViewController.swift */; };
+		DE59BB3E1C3D0A3E00538DE0 /* SideMenuUserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE59BB3D1C3D0A3E00538DE0 /* SideMenuUserInfoView.swift */; };
+		DE710ADD1C0FED5E00BD935F /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE710AD11C0FED5E00BD935F /* libWeiboSDK.a */; };
+		DE710ADE1C0FED5E00BD935F /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DE710ADA1C0FED5E00BD935F /* WeiboSDK.bundle */; };
 		DE710AE01C0FF62C00BD935F /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DE710ADF1C0FF62C00BD935F /* libsqlite3.tbd */; };
 		DE710AE21C0FF6AC00BD935F /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE710AE11C0FF6AC00BD935F /* ImageIO.framework */; };
 		DE710AE41C0FF6B800BD935F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE710AE31C0FF6B800BD935F /* UIKit.framework */; };
 		DE710AE61C0FF6D300BD935F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE710AE51C0FF6D300BD935F /* Foundation.framework */; };
 		DE710AE81C0FF6E100BD935F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE710AE71C0FF6E100BD935F /* CoreGraphics.framework */; };
 		DE710AEA1C0FF6ED00BD935F /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DE710AE91C0FF6ED00BD935F /* libz.tbd */; };
-		DE710AF31C101ADC00BD935F /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DE710AF11C101ADC00BD935F /* TencentOpenApi_IOS_Bundle.bundle */; settings = {ASSET_TAGS = (); }; };
-		DE710AF41C101ADC00BD935F /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE710AF21C101ADC00BD935F /* TencentOpenAPI.framework */; settings = {ASSET_TAGS = (); }; };
-		DE710B001C103BE100BD935F /* CustomWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE710AFF1C103BE100BD935F /* CustomWebView.swift */; settings = {ASSET_TAGS = (); }; };
-		DEA3B13F1C084D04006712FC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEA3B13E1C084D04006712FC /* Images.xcassets */; settings = {ASSET_TAGS = (); }; };
+		DE710AF31C101ADC00BD935F /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DE710AF11C101ADC00BD935F /* TencentOpenApi_IOS_Bundle.bundle */; };
+		DE710AF41C101ADC00BD935F /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE710AF21C101ADC00BD935F /* TencentOpenAPI.framework */; };
+		DE710B001C103BE100BD935F /* CustomWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE710AFF1C103BE100BD935F /* CustomWebView.swift */; };
+		DE7F83771C3530640012DEB1 /* libBaiduMobStat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE7F83761C3530640012DEB1 /* libBaiduMobStat.a */; };
+		DEA3B13F1C084D04006712FC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEA3B13E1C084D04006712FC /* Images.xcassets */; };
+		DEA5CB381C11716E00C6148A /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA5CB371C11716E00C6148A /* SettingViewController.swift */; };
+		DEA5CB3A1C119F9700C6148A /* SuggestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA5CB391C119F9700C6148A /* SuggestViewController.swift */; };
 		DEB236951BFACE040085529D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB236941BFACE040085529D /* AppDelegate.swift */; };
 		DEB236971BFACE040085529D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB236961BFACE040085529D /* ViewController.swift */; };
 		DEB2369A1BFACE040085529D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEB236981BFACE040085529D /* Main.storyboard */; };
@@ -38,7 +56,9 @@
 		DEB2369F1BFACE040085529D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEB2369D1BFACE040085529D /* LaunchScreen.storyboard */; };
 		DEB236AA1BFACE040085529D /* HelloJamesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB236A91BFACE040085529D /* HelloJamesTests.swift */; };
 		DEB236B51BFACE040085529D /* HelloJamesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB236B41BFACE040085529D /* HelloJamesUITests.swift */; };
-		DEB236C41BFACE490085529D /* podfile in Resources */ = {isa = PBXBuildFile; fileRef = DEB236C21BFACE490085529D /* podfile */; settings = {ASSET_TAGS = (); }; };
+		DEB236C41BFACE490085529D /* podfile in Resources */ = {isa = PBXBuildFile; fileRef = DEB236C21BFACE490085529D /* podfile */; };
+		DEC30EB41C155BC200DDD5A4 /* SettingMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC30EB31C155BC200DDD5A4 /* SettingMenuViewController.swift */; };
+		DEC30EB61C1578DF00DDD5A4 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEC30EB51C1578DF00DDD5A4 /* MessageUI.framework */; };
 		DECD1A261C0EFB44009BA752 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DECD1A251C0EFB44009BA752 /* SystemConfiguration.framework */; };
 		DECD1A281C0EFB4F009BA752 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DECD1A271C0EFB4F009BA752 /* QuartzCore.framework */; };
 		DECD1A2A1C0EFBC3009BA752 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DECD1A291C0EFBC3009BA752 /* CoreTelephony.framework */; };
@@ -48,43 +68,52 @@
 		DECD1A321C0EFC0D009BA752 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DECD1A311C0EFC0D009BA752 /* JavaScriptCore.framework */; };
 		DECD1A341C0EFC20009BA752 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DECD1A331C0EFC20009BA752 /* libstdc++.tbd */; };
 		DECD1A361C0EFC2C009BA752 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DECD1A351C0EFC2C009BA752 /* CoreText.framework */; };
-		DED49F941BFAD3FD00E564DC /* MJRefreshAutoFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F3B1BFAD3FD00E564DC /* MJRefreshAutoFooter.m */; settings = {ASSET_TAGS = (); }; };
-		DED49F951BFAD3FD00E564DC /* MJRefreshBackFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F3D1BFAD3FD00E564DC /* MJRefreshBackFooter.m */; settings = {ASSET_TAGS = (); }; };
-		DED49F961BFAD3FD00E564DC /* MJRefreshComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F3F1BFAD3FD00E564DC /* MJRefreshComponent.m */; settings = {ASSET_TAGS = (); }; };
-		DED49F971BFAD3FD00E564DC /* MJRefreshFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F411BFAD3FD00E564DC /* MJRefreshFooter.m */; settings = {ASSET_TAGS = (); }; };
-		DED49F981BFAD3FD00E564DC /* MJRefreshHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F431BFAD3FD00E564DC /* MJRefreshHeader.m */; settings = {ASSET_TAGS = (); }; };
-		DED49F991BFAD3FD00E564DC /* MJRefreshAutoGifFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F461BFAD3FD00E564DC /* MJRefreshAutoGifFooter.m */; settings = {ASSET_TAGS = (); }; };
-		DED49F9A1BFAD3FD00E564DC /* MJRefreshAutoNormalFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F481BFAD3FD00E564DC /* MJRefreshAutoNormalFooter.m */; settings = {ASSET_TAGS = (); }; };
-		DED49F9B1BFAD3FD00E564DC /* MJRefreshAutoStateFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F4A1BFAD3FD00E564DC /* MJRefreshAutoStateFooter.m */; settings = {ASSET_TAGS = (); }; };
-		DED49F9C1BFAD3FD00E564DC /* MJRefreshBackGifFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F4D1BFAD3FD00E564DC /* MJRefreshBackGifFooter.m */; settings = {ASSET_TAGS = (); }; };
-		DED49F9D1BFAD3FD00E564DC /* MJRefreshBackNormalFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F4F1BFAD3FD00E564DC /* MJRefreshBackNormalFooter.m */; settings = {ASSET_TAGS = (); }; };
-		DED49F9E1BFAD3FD00E564DC /* MJRefreshBackStateFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F511BFAD3FD00E564DC /* MJRefreshBackStateFooter.m */; settings = {ASSET_TAGS = (); }; };
-		DED49F9F1BFAD3FD00E564DC /* MJRefreshGifHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F551BFAD3FD00E564DC /* MJRefreshGifHeader.m */; settings = {ASSET_TAGS = (); }; };
-		DED49FA01BFAD3FD00E564DC /* MJRefreshNormalHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F571BFAD3FD00E564DC /* MJRefreshNormalHeader.m */; settings = {ASSET_TAGS = (); }; };
-		DED49FA11BFAD3FD00E564DC /* MJRefreshStateHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F591BFAD3FD00E564DC /* MJRefreshStateHeader.m */; settings = {ASSET_TAGS = (); }; };
-		DED49FA21BFAD3FD00E564DC /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DED49F5C1BFAD3FD00E564DC /* MJRefresh.bundle */; settings = {ASSET_TAGS = (); }; };
-		DED49FA31BFAD3FD00E564DC /* MJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F5F1BFAD3FD00E564DC /* MJRefreshConst.m */; settings = {ASSET_TAGS = (); }; };
-		DED49FA41BFAD3FD00E564DC /* UIScrollView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F611BFAD3FD00E564DC /* UIScrollView+MJExtension.m */; settings = {ASSET_TAGS = (); }; };
-		DED49FA51BFAD3FD00E564DC /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F631BFAD3FD00E564DC /* UIScrollView+MJRefresh.m */; settings = {ASSET_TAGS = (); }; };
-		DED49FA61BFAD3FD00E564DC /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F651BFAD3FD00E564DC /* UIView+MJExtension.m */; settings = {ASSET_TAGS = (); }; };
-		DED49FA71BFAD3FD00E564DC /* ZFModalTransitionAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F681BFAD3FD00E564DC /* ZFModalTransitionAnimator.m */; settings = {ASSET_TAGS = (); }; };
-		DED49FA81BFAD3FD00E564DC /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F6B1BFAD3FD00E564DC /* UIImage+ImageEffects.m */; settings = {ASSET_TAGS = (); }; };
-		DED49FA91BFAD3FD00E564DC /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F6E1BFAD3FD00E564DC /* SWRevealViewController.m */; settings = {ASSET_TAGS = (); }; };
-		DED49FAA1BFAD3FD00E564DC /* ParallaxHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F711BFAD3FD00E564DC /* ParallaxHeaderView.m */; settings = {ASSET_TAGS = (); }; };
-		DED49FAB1BFAD3FD00E564DC /* NSData+SDDataCache.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F741BFAD3FD00E564DC /* NSData+SDDataCache.m */; settings = {ASSET_TAGS = (); }; };
-		DED49FAC1BFAD3FD00E564DC /* TAAbstractDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F761BFAD3FD00E564DC /* TAAbstractDotView.m */; settings = {ASSET_TAGS = (); }; };
-		DED49FAD1BFAD3FD00E564DC /* TAAnimatedDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F781BFAD3FD00E564DC /* TAAnimatedDotView.m */; settings = {ASSET_TAGS = (); }; };
-		DED49FAE1BFAD3FD00E564DC /* TADotView.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F7A1BFAD3FD00E564DC /* TADotView.m */; settings = {ASSET_TAGS = (); }; };
-		DED49FAF1BFAD3FD00E564DC /* TAPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F7C1BFAD3FD00E564DC /* TAPageControl.m */; settings = {ASSET_TAGS = (); }; };
-		DED49FB01BFAD3FD00E564DC /* SDCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F7F1BFAD3FD00E564DC /* SDCollectionViewCell.m */; settings = {ASSET_TAGS = (); }; };
-		DED49FB11BFAD3FD00E564DC /* SDCycleScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F811BFAD3FD00E564DC /* SDCycleScrollView.m */; settings = {ASSET_TAGS = (); }; };
-		DED49FB21BFAD3FD00E564DC /* UIView+SDExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F831BFAD3FD00E564DC /* UIView+SDExtension.m */; settings = {ASSET_TAGS = (); }; };
-		DED49FB31BFAD3FD00E564DC /* UINavigationBar+Awesome.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F861BFAD3FD00E564DC /* UINavigationBar+Awesome.m */; settings = {ASSET_TAGS = (); }; };
-		DED49FB41BFAD3FD00E564DC /* GradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F891BFAD3FD00E564DC /* GradientView.m */; settings = {ASSET_TAGS = (); }; };
-		DED49FB51BFAD3FD00E564DC /* myUILabel.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F8C1BFAD3FD00E564DC /* myUILabel.m */; settings = {ASSET_TAGS = (); }; };
-		DED49FB61BFAD3FD00E564DC /* MSWeakTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F8F1BFAD3FD00E564DC /* MSWeakTimer.m */; settings = {ASSET_TAGS = (); }; };
-		DED49FB81BFAD57600E564DC /* StoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED49FB71BFAD57600E564DC /* StoryModel.swift */; settings = {ASSET_TAGS = (); }; };
-		DEFE0A9F1C0C47EE00E7AD8F /* CatTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEFE0A9E1C0C47EE00E7AD8F /* CatTableCellView.swift */; settings = {ASSET_TAGS = (); }; };
+		DED49F941BFAD3FD00E564DC /* MJRefreshAutoFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F3B1BFAD3FD00E564DC /* MJRefreshAutoFooter.m */; };
+		DED49F951BFAD3FD00E564DC /* MJRefreshBackFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F3D1BFAD3FD00E564DC /* MJRefreshBackFooter.m */; };
+		DED49F961BFAD3FD00E564DC /* MJRefreshComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F3F1BFAD3FD00E564DC /* MJRefreshComponent.m */; };
+		DED49F971BFAD3FD00E564DC /* MJRefreshFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F411BFAD3FD00E564DC /* MJRefreshFooter.m */; };
+		DED49F981BFAD3FD00E564DC /* MJRefreshHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F431BFAD3FD00E564DC /* MJRefreshHeader.m */; };
+		DED49F991BFAD3FD00E564DC /* MJRefreshAutoGifFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F461BFAD3FD00E564DC /* MJRefreshAutoGifFooter.m */; };
+		DED49F9A1BFAD3FD00E564DC /* MJRefreshAutoNormalFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F481BFAD3FD00E564DC /* MJRefreshAutoNormalFooter.m */; };
+		DED49F9B1BFAD3FD00E564DC /* MJRefreshAutoStateFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F4A1BFAD3FD00E564DC /* MJRefreshAutoStateFooter.m */; };
+		DED49F9C1BFAD3FD00E564DC /* MJRefreshBackGifFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F4D1BFAD3FD00E564DC /* MJRefreshBackGifFooter.m */; };
+		DED49F9D1BFAD3FD00E564DC /* MJRefreshBackNormalFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F4F1BFAD3FD00E564DC /* MJRefreshBackNormalFooter.m */; };
+		DED49F9E1BFAD3FD00E564DC /* MJRefreshBackStateFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F511BFAD3FD00E564DC /* MJRefreshBackStateFooter.m */; };
+		DED49F9F1BFAD3FD00E564DC /* MJRefreshGifHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F551BFAD3FD00E564DC /* MJRefreshGifHeader.m */; };
+		DED49FA01BFAD3FD00E564DC /* MJRefreshNormalHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F571BFAD3FD00E564DC /* MJRefreshNormalHeader.m */; };
+		DED49FA11BFAD3FD00E564DC /* MJRefreshStateHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F591BFAD3FD00E564DC /* MJRefreshStateHeader.m */; };
+		DED49FA21BFAD3FD00E564DC /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DED49F5C1BFAD3FD00E564DC /* MJRefresh.bundle */; };
+		DED49FA31BFAD3FD00E564DC /* MJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F5F1BFAD3FD00E564DC /* MJRefreshConst.m */; };
+		DED49FA41BFAD3FD00E564DC /* UIScrollView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F611BFAD3FD00E564DC /* UIScrollView+MJExtension.m */; };
+		DED49FA51BFAD3FD00E564DC /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F631BFAD3FD00E564DC /* UIScrollView+MJRefresh.m */; };
+		DED49FA61BFAD3FD00E564DC /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F651BFAD3FD00E564DC /* UIView+MJExtension.m */; };
+		DED49FA71BFAD3FD00E564DC /* ZFModalTransitionAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F681BFAD3FD00E564DC /* ZFModalTransitionAnimator.m */; };
+		DED49FA81BFAD3FD00E564DC /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F6B1BFAD3FD00E564DC /* UIImage+ImageEffects.m */; };
+		DED49FA91BFAD3FD00E564DC /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F6E1BFAD3FD00E564DC /* SWRevealViewController.m */; };
+		DED49FAA1BFAD3FD00E564DC /* ParallaxHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F711BFAD3FD00E564DC /* ParallaxHeaderView.m */; };
+		DED49FAB1BFAD3FD00E564DC /* NSData+SDDataCache.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F741BFAD3FD00E564DC /* NSData+SDDataCache.m */; };
+		DED49FAC1BFAD3FD00E564DC /* TAAbstractDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F761BFAD3FD00E564DC /* TAAbstractDotView.m */; };
+		DED49FAD1BFAD3FD00E564DC /* TAAnimatedDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F781BFAD3FD00E564DC /* TAAnimatedDotView.m */; };
+		DED49FAE1BFAD3FD00E564DC /* TADotView.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F7A1BFAD3FD00E564DC /* TADotView.m */; };
+		DED49FAF1BFAD3FD00E564DC /* TAPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F7C1BFAD3FD00E564DC /* TAPageControl.m */; };
+		DED49FB01BFAD3FD00E564DC /* SDCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F7F1BFAD3FD00E564DC /* SDCollectionViewCell.m */; };
+		DED49FB11BFAD3FD00E564DC /* SDCycleScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F811BFAD3FD00E564DC /* SDCycleScrollView.m */; };
+		DED49FB21BFAD3FD00E564DC /* UIView+SDExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F831BFAD3FD00E564DC /* UIView+SDExtension.m */; };
+		DED49FB31BFAD3FD00E564DC /* UINavigationBar+Awesome.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F861BFAD3FD00E564DC /* UINavigationBar+Awesome.m */; };
+		DED49FB41BFAD3FD00E564DC /* GradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F891BFAD3FD00E564DC /* GradientView.m */; };
+		DED49FB51BFAD3FD00E564DC /* myUILabel.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F8C1BFAD3FD00E564DC /* myUILabel.m */; };
+		DED49FB61BFAD3FD00E564DC /* MSWeakTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = DED49F8F1BFAD3FD00E564DC /* MSWeakTimer.m */; };
+		DED49FB81BFAD57600E564DC /* StoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED49FB71BFAD57600E564DC /* StoryModel.swift */; };
+		DED606F11C338C4A00B4DEAF /* SideMenuBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED606F01C338C4A00B4DEAF /* SideMenuBtn.swift */; };
+		DED951E81C3B5FFD00C22682 /* User.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DED951E71C3B5FFD00C22682 /* User.storyboard */; };
+		DED951EC1C3BA2AB00C22682 /* LoginNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED951EB1C3BA2AB00C22682 /* LoginNavigation.swift */; };
+		DED951EE1C3BA35200C22682 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED951ED1C3BA35200C22682 /* LoginViewController.swift */; };
+		DED951F01C3BB62E00C22682 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED951EF1C3BB62E00C22682 /* RegisterViewController.swift */; };
+		DED951F21C3BDB8100C22682 /* UserInfoNavigaition.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED951F11C3BDB8100C22682 /* UserInfoNavigaition.swift */; };
+		DED951F41C3BDBBA00C22682 /* UserInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED951F31C3BDBBA00C22682 /* UserInfoViewController.swift */; };
+		DED951F61C3CCF1C00C22682 /* UserInfoEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED951F51C3CCF1C00C22682 /* UserInfoEditViewController.swift */; };
+		DEDB1A5B1C1AB80700A64DD3 /* Reach.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEDB1A5A1C1AB80700A64DD3 /* Reach.swift */; };
+		DEFE0A9F1C0C47EE00E7AD8F /* CatTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEFE0A9E1C0C47EE00E7AD8F /* CatTableCellView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,8 +137,27 @@
 		2FB99255B42164E8B2F41314 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		71B8E16C8E416F35D006F767 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		90FA98A47E9490C635FBBBA0 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		DE09BB181C16C0BC0088495A /* AboutusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutusViewController.swift; sourceTree = "<group>"; };
+		DE09BB1A1C16C7FC0088495A /* AboutusNavigation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutusNavigation.swift; sourceTree = "<group>"; };
+		DE09BB1C1C16E5810088495A /* libXG-SDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libXG-SDK.a"; sourceTree = "<group>"; };
+		DE09BB1D1C16E5810088495A /* XGPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XGPush.h; sourceTree = "<group>"; };
+		DE09BB1E1C16E5810088495A /* XGSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XGSetting.h; sourceTree = "<group>"; };
 		DE1B51B31BFC1EA800436ADE /* IndexTableViewControll.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexTableViewControll.swift; sourceTree = "<group>"; };
+		DE213D1A1C17C88F005611F7 /* libUMessage_Sdk_1.2.1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.2.1.a; sourceTree = "<group>"; };
+		DE213D1B1C17C88F005611F7 /* UMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
+		DE213D1E1C17CDB3005611F7 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
+		DE213D1F1C17CDB3005611F7 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
+		DE213D201C17CDB3005611F7 /* MobClickSocialAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClickSocialAnalytics.h; sourceTree = "<group>"; };
+		DE213D231C181926005611F7 /* ShopTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopTableViewController.swift; sourceTree = "<group>"; };
+		DE213D251C181C20005611F7 /* ShopTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopTableViewCell.swift; sourceTree = "<group>"; };
 		DE2616441C02B7D800FFB4C2 /* MainTabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarItem.swift; sourceTree = "<group>"; };
+		DE2679F01C2B9C7200A07F65 /* BaiduMobStat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduMobStat.h; sourceTree = "<group>"; };
+		DE2679F31C2B9CD400A07F65 /* libBaiduMobStat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBaiduMobStat.a; path = "../../../../../Downloads/BaiduMTJ_iOS_App_V3.6.1/ios_api/Release-iphoneos/libBaiduMobStat.a"; sourceTree = "<group>"; };
+		DE2679F51C2BA0EC00A07F65 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		DE2679F81C2D14E100A07F65 /* SearchNavigation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchNavigation.swift; sourceTree = "<group>"; };
+		DE2679FA1C2D14FD00A07F65 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		DE2679FC1C2D356B00A07F65 /* SearchTitleCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTitleCellView.swift; sourceTree = "<group>"; };
+		DE2679FE1C2D357D00A07F65 /* SearchCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCellView.swift; sourceTree = "<group>"; };
 		DE2AFE271BFF122C00266054 /* MainPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainPageViewController.swift; sourceTree = "<group>"; };
 		DE334E311C0F0D4D00ECC3CF /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
 		DE334E321C0F0D4D00ECC3CF /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
@@ -120,9 +168,14 @@
 		DE405E551BFB35B200AF4DE7 /* IndexTableBigCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexTableBigCellView.swift; sourceTree = "<group>"; };
 		DE405E571BFB360200AF4DE7 /* IndexTableMutiCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexTableMutiCellView.swift; sourceTree = "<group>"; };
 		DE405E591BFB377C00AF4DE7 /* IndexTableMutiCellSingleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexTableMutiCellSingleView.swift; sourceTree = "<group>"; };
+		DE53A0591C15270600604555 /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APService.h; sourceTree = "<group>"; };
+		DE53A05A1C15270600604555 /* libPushSDK-1.8.8.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libPushSDK-1.8.8.a"; sourceTree = "<group>"; };
+		DE53A05C1C15271E00604555 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		DE53A05E1C1527AD00604555 /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
 		DE59B9D31BFD757A00871D36 /* MJDIYHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJDIYHeader.m; sourceTree = "<group>"; };
 		DE59B9D51BFD75A600871D36 /* MJDIYHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MJDIYHeader.h; sourceTree = "<group>"; };
 		DE59B9D71BFDC26F00871D36 /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		DE59BB3D1C3D0A3E00538DE0 /* SideMenuUserInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideMenuUserInfoView.swift; sourceTree = "<group>"; };
 		DE710AD11C0FED5E00BD935F /* libWeiboSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeiboSDK.a; sourceTree = "<group>"; };
 		DE710AD21C0FED5E00BD935F /* WBHttpRequest+WeiboGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WBHttpRequest+WeiboGame.h"; sourceTree = "<group>"; };
 		DE710AD31C0FED5E00BD935F /* WBHttpRequest+WeiboShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WBHttpRequest+WeiboShare.h"; sourceTree = "<group>"; };
@@ -152,7 +205,10 @@
 		DE710AFD1C101BBE00BD935F /* TencentOAuthObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TencentOAuthObject.h; sourceTree = "<group>"; };
 		DE710AFE1C101BBE00BD935F /* WeiBoAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeiBoAPI.h; sourceTree = "<group>"; };
 		DE710AFF1C103BE100BD935F /* CustomWebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomWebView.swift; sourceTree = "<group>"; };
+		DE7F83761C3530640012DEB1 /* libBaiduMobStat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBaiduMobStat.a; path = HelloJames/libBaiduMobStat.a; sourceTree = "<group>"; };
 		DEA3B13E1C084D04006712FC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		DEA5CB371C11716E00C6148A /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		DEA5CB391C119F9700C6148A /* SuggestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestViewController.swift; sourceTree = "<group>"; };
 		DEB236911BFACE040085529D /* HelloJames.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HelloJames.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEB236941BFACE040085529D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DEB236961BFACE040085529D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -167,6 +223,8 @@
 		DEB236B41BFACE040085529D /* HelloJamesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelloJamesUITests.swift; sourceTree = "<group>"; };
 		DEB236B61BFACE040085529D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DEB236C21BFACE490085529D /* podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		DEC30EB31C155BC200DDD5A4 /* SettingMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingMenuViewController.swift; sourceTree = "<group>"; };
+		DEC30EB51C1578DF00DDD5A4 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		DECD1A251C0EFB44009BA752 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		DECD1A271C0EFB4F009BA752 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		DECD1A291C0EFBC3009BA752 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -247,6 +305,15 @@
 		DED49F8E1BFAD3FD00E564DC /* MSWeakTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSWeakTimer.h; sourceTree = "<group>"; };
 		DED49F8F1BFAD3FD00E564DC /* MSWeakTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MSWeakTimer.m; sourceTree = "<group>"; };
 		DED49FB71BFAD57600E564DC /* StoryModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryModel.swift; sourceTree = "<group>"; };
+		DED606F01C338C4A00B4DEAF /* SideMenuBtn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideMenuBtn.swift; sourceTree = "<group>"; };
+		DED951E71C3B5FFD00C22682 /* User.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = User.storyboard; sourceTree = "<group>"; };
+		DED951EB1C3BA2AB00C22682 /* LoginNavigation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginNavigation.swift; sourceTree = "<group>"; };
+		DED951ED1C3BA35200C22682 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		DED951EF1C3BB62E00C22682 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		DED951F11C3BDB8100C22682 /* UserInfoNavigaition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoNavigaition.swift; sourceTree = "<group>"; };
+		DED951F31C3BDBBA00C22682 /* UserInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoViewController.swift; sourceTree = "<group>"; };
+		DED951F51C3CCF1C00C22682 /* UserInfoEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoEditViewController.swift; sourceTree = "<group>"; };
+		DEDB1A5A1C1AB80700A64DD3 /* Reach.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reach.swift; sourceTree = "<group>"; };
 		DEFE0A9E1C0C47EE00E7AD8F /* CatTableCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatTableCellView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -255,24 +322,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE7F83771C3530640012DEB1 /* libBaiduMobStat.a in Frameworks */,
+				DE2679F61C2BA0EC00A07F65 /* CoreLocation.framework in Frameworks */,
+				DEC30EB61C1578DF00DDD5A4 /* MessageUI.framework in Frameworks */,
+				DECD1A301C0EFC05009BA752 /* Security.framework in Frameworks */,
+				DECD1A261C0EFB44009BA752 /* SystemConfiguration.framework in Frameworks */,
+				DE53A05D1C15271E00604555 /* CFNetwork.framework in Frameworks */,
 				DE710AEA1C0FF6ED00BD935F /* libz.tbd in Frameworks */,
 				DE710AE81C0FF6E100BD935F /* CoreGraphics.framework in Frameworks */,
 				DE710AE61C0FF6D300BD935F /* Foundation.framework in Frameworks */,
 				DE710AE41C0FF6B800BD935F /* UIKit.framework in Frameworks */,
+				DE213D211C17CDB3005611F7 /* libMobClickLibrary.a in Frameworks */,
 				DE710AE21C0FF6AC00BD935F /* ImageIO.framework in Frameworks */,
 				DE710AE01C0FF62C00BD935F /* libsqlite3.tbd in Frameworks */,
 				DECD1A361C0EFC2C009BA752 /* CoreText.framework in Frameworks */,
 				DECD1A341C0EFC20009BA752 /* libstdc++.tbd in Frameworks */,
+				DE53A05B1C15270600604555 /* libPushSDK-1.8.8.a in Frameworks */,
 				DE710AF41C101ADC00BD935F /* TencentOpenAPI.framework in Frameworks */,
+				DE213D1C1C17C88F005611F7 /* libUMessage_Sdk_1.2.1.a in Frameworks */,
 				DECD1A321C0EFC0D009BA752 /* JavaScriptCore.framework in Frameworks */,
-				DECD1A301C0EFC05009BA752 /* Security.framework in Frameworks */,
 				DECD1A2E1C0EFBFB009BA752 /* libz.1.2.5.tbd in Frameworks */,
 				DE334E341C0F0D4D00ECC3CF /* libWeChatSDK.a in Frameworks */,
 				DECD1A2C1C0EFBED009BA752 /* libicucore.tbd in Frameworks */,
 				DE710ADD1C0FED5E00BD935F /* libWeiboSDK.a in Frameworks */,
 				DECD1A2A1C0EFBC3009BA752 /* CoreTelephony.framework in Frameworks */,
 				DECD1A281C0EFB4F009BA752 /* QuartzCore.framework in Frameworks */,
-				DECD1A261C0EFB44009BA752 /* SystemConfiguration.framework in Frameworks */,
 				0C5DDCE33F69616BE4E76EF1 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -297,6 +371,11 @@
 		65415A7526CF2BF510CB213B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DE7F83761C3530640012DEB1 /* libBaiduMobStat.a */,
+				DE2679F51C2BA0EC00A07F65 /* CoreLocation.framework */,
+				DE2679F31C2B9CD400A07F65 /* libBaiduMobStat.a */,
+				DEC30EB51C1578DF00DDD5A4 /* MessageUI.framework */,
+				DE53A05C1C15271E00604555 /* CFNetwork.framework */,
 				DE710AF11C101ADC00BD935F /* TencentOpenApi_IOS_Bundle.bundle */,
 				DE710AF21C101ADC00BD935F /* TencentOpenAPI.framework */,
 				DE710AE91C0FF6ED00BD935F /* libz.tbd */,
@@ -328,6 +407,37 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		DE213D1D1C17CD92005611F7 /* analytics */ = {
+			isa = PBXGroup;
+			children = (
+				DE2679F01C2B9C7200A07F65 /* BaiduMobStat.h */,
+				DE213D1E1C17CDB3005611F7 /* libMobClickLibrary.a */,
+				DE213D1F1C17CDB3005611F7 /* MobClick.h */,
+				DE213D201C17CDB3005611F7 /* MobClickSocialAnalytics.h */,
+			);
+			name = analytics;
+			sourceTree = "<group>";
+		};
+		DE213D221C1818F6005611F7 /* ShopTableViewController */ = {
+			isa = PBXGroup;
+			children = (
+				DE213D231C181926005611F7 /* ShopTableViewController.swift */,
+				DE213D251C181C20005611F7 /* ShopTableViewCell.swift */,
+			);
+			name = ShopTableViewController;
+			sourceTree = "<group>";
+		};
+		DE2679F71C2D140F00A07F65 /* search */ = {
+			isa = PBXGroup;
+			children = (
+				DE2679F81C2D14E100A07F65 /* SearchNavigation.swift */,
+				DE2679FA1C2D14FD00A07F65 /* SearchViewController.swift */,
+				DE2679FC1C2D356B00A07F65 /* SearchTitleCellView.swift */,
+				DE2679FE1C2D357D00A07F65 /* SearchCellView.swift */,
+			);
+			name = search;
+			sourceTree = "<group>";
+		};
 		DE334E301C0F0CBB00ECC3CF /* ShareSDK */ = {
 			isa = PBXGroup;
 			children = (
@@ -351,6 +461,7 @@
 			children = (
 				DE405E4E1BFAEBAE00AF4DE7 /* SideMenuViewController.swift */,
 				DEFE0A9E1C0C47EE00E7AD8F /* CatTableCellView.swift */,
+				DE59BB3D1C3D0A3E00538DE0 /* SideMenuUserInfoView.swift */,
 			);
 			name = SideViewController;
 			sourceTree = "<group>";
@@ -361,6 +472,7 @@
 				DE405E511BFAED2800AF4DE7 /* MainTabBarController.swift */,
 				DE2AFE271BFF122C00266054 /* MainPageViewController.swift */,
 				DE2616441C02B7D800FFB4C2 /* MainTabBarItem.swift */,
+				DED606F01C338C4A00B4DEAF /* SideMenuBtn.swift */,
 			);
 			name = TabViewController;
 			sourceTree = "<group>";
@@ -376,6 +488,20 @@
 				DE59B9D51BFD75A600871D36 /* MJDIYHeader.h */,
 			);
 			name = IndexTableViewControll;
+			sourceTree = "<group>";
+		};
+		DE53A0581C1526FA00604555 /* push */ = {
+			isa = PBXGroup;
+			children = (
+				DE213D1A1C17C88F005611F7 /* libUMessage_Sdk_1.2.1.a */,
+				DE213D1B1C17C88F005611F7 /* UMessage.h */,
+				DE09BB1C1C16E5810088495A /* libXG-SDK.a */,
+				DE09BB1D1C16E5810088495A /* XGPush.h */,
+				DE09BB1E1C16E5810088495A /* XGSetting.h */,
+				DE53A0591C15270600604555 /* APService.h */,
+				DE53A05A1C15270600604555 /* libPushSDK-1.8.8.a */,
+			);
+			name = push;
 			sourceTree = "<group>";
 		};
 		DE59B9D61BFDC25300871D36 /* WebViewController */ = {
@@ -406,6 +532,18 @@
 			path = libWeiboSDK;
 			sourceTree = "<group>";
 		};
+		DEA5CB361C11715000C6148A /* setting */ = {
+			isa = PBXGroup;
+			children = (
+				DEA5CB371C11716E00C6148A /* SettingViewController.swift */,
+				DEA5CB391C119F9700C6148A /* SuggestViewController.swift */,
+				DEC30EB31C155BC200DDD5A4 /* SettingMenuViewController.swift */,
+				DE09BB181C16C0BC0088495A /* AboutusViewController.swift */,
+				DE09BB1A1C16C7FC0088495A /* AboutusNavigation.swift */,
+			);
+			name = setting;
+			sourceTree = "<group>";
+		};
 		DEB236881BFACE040085529D = {
 			isa = PBXGroup;
 			children = (
@@ -433,6 +571,8 @@
 		DEB236931BFACE040085529D /* HelloJames */ = {
 			isa = PBXGroup;
 			children = (
+				DE213D1D1C17CD92005611F7 /* analytics */,
+				DE53A0581C1526FA00604555 /* push */,
 				DE710AD01C0FED5E00BD935F /* libWeiboSDK */,
 				DE334E301C0F0CBB00ECC3CF /* ShareSDK */,
 				DEB236941BFACE040085529D /* AppDelegate.swift */,
@@ -441,13 +581,20 @@
 				DE405E501BFAED0A00AF4DE7 /* TabViewController */,
 				DE405E4D1BFAEB9300AF4DE7 /* SideViewController */,
 				DE405E541BFB355A00AF4DE7 /* IndexTableViewControll */,
+				DE213D221C1818F6005611F7 /* ShopTableViewController */,
 				DE59B9D61BFDC25300871D36 /* WebViewController */,
+				DEA5CB361C11715000C6148A /* setting */,
+				DE2679F71C2D140F00A07F65 /* search */,
+				DED951EA1C3BA1AE00C22682 /* User */,
 				DEB236961BFACE040085529D /* ViewController.swift */,
+				DEDB1A5A1C1AB80700A64DD3 /* Reach.swift */,
 				DEB236981BFACE040085529D /* Main.storyboard */,
+				DED951E71C3B5FFD00C22682 /* User.storyboard */,
 				DEB2369B1BFACE040085529D /* Assets.xcassets */,
 				DEB2369D1BFACE040085529D /* LaunchScreen.storyboard */,
 				DEB236A01BFACE040085529D /* Info.plist */,
 				DEA3B13E1C084D04006712FC /* Images.xcassets */,
+				DE53A05E1C1527AD00604555 /* PushConfig.plist */,
 			);
 			path = HelloJames;
 			sourceTree = "<group>";
@@ -701,6 +848,19 @@
 			path = "../../../../ios/sample/NirZhihuDaily2.0-master/zhihuDaily 2.0";
 			sourceTree = "<group>";
 		};
+		DED951EA1C3BA1AE00C22682 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				DED951EB1C3BA2AB00C22682 /* LoginNavigation.swift */,
+				DED951ED1C3BA35200C22682 /* LoginViewController.swift */,
+				DED951EF1C3BB62E00C22682 /* RegisterViewController.swift */,
+				DED951F11C3BDB8100C22682 /* UserInfoNavigaition.swift */,
+				DED951F31C3BDBBA00C22682 /* UserInfoViewController.swift */,
+				DED951F51C3CCF1C00C22682 /* UserInfoEditViewController.swift */,
+			);
+			name = User;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -772,6 +932,14 @@
 					DEB236901BFACE040085529D = {
 						CreatedOnToolsVersion = 7.0;
 						DevelopmentTeam = 52FM2HRX55;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					DEB236A41BFACE040085529D = {
 						CreatedOnToolsVersion = 7.0;
@@ -809,12 +977,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE710AF31C101ADC00BD935F /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
+				DE53A05F1C1527AD00604555 /* PushConfig.plist in Resources */,
 				DEB2369F1BFACE040085529D /* LaunchScreen.storyboard in Resources */,
 				DEB2369C1BFACE040085529D /* Assets.xcassets in Resources */,
 				DEB236C41BFACE490085529D /* podfile in Resources */,
 				DEA3B13F1C084D04006712FC /* Images.xcassets in Resources */,
 				DE710ADE1C0FED5E00BD935F /* WeiboSDK.bundle in Resources */,
 				DED49FA21BFAD3FD00E564DC /* MJRefresh.bundle in Resources */,
+				DED951E81C3B5FFD00C22682 /* User.storyboard in Resources */,
 				DEB2369A1BFACE040085529D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -891,18 +1061,25 @@
 				DED49FAA1BFAD3FD00E564DC /* ParallaxHeaderView.m in Sources */,
 				DED49FAE1BFAD3FD00E564DC /* TADotView.m in Sources */,
 				DED49FB41BFAD3FD00E564DC /* GradientView.m in Sources */,
+				DE2679F91C2D14E100A07F65 /* SearchNavigation.swift in Sources */,
 				DED49FA41BFAD3FD00E564DC /* UIScrollView+MJExtension.m in Sources */,
 				DE2AFE281BFF122C00266054 /* MainPageViewController.swift in Sources */,
+				DED951F21C3BDB8100C22682 /* UserInfoNavigaition.swift in Sources */,
 				DE710B001C103BE100BD935F /* CustomWebView.swift in Sources */,
 				DEB236971BFACE040085529D /* ViewController.swift in Sources */,
+				DE213D241C181926005611F7 /* ShopTableViewController.swift in Sources */,
+				DEDB1A5B1C1AB80700A64DD3 /* Reach.swift in Sources */,
 				DE405E5A1BFB377C00AF4DE7 /* IndexTableMutiCellSingleView.swift in Sources */,
 				DED49FA71BFAD3FD00E564DC /* ZFModalTransitionAnimator.m in Sources */,
+				DE2679FF1C2D357D00A07F65 /* SearchCellView.swift in Sources */,
 				DED49FA91BFAD3FD00E564DC /* SWRevealViewController.m in Sources */,
 				DED49FB81BFAD57600E564DC /* StoryModel.swift in Sources */,
+				DE2679FB1C2D14FD00A07F65 /* SearchViewController.swift in Sources */,
 				DED49FA11BFAD3FD00E564DC /* MJRefreshStateHeader.m in Sources */,
 				DED49FB21BFAD3FD00E564DC /* UIView+SDExtension.m in Sources */,
 				DED49FA81BFAD3FD00E564DC /* UIImage+ImageEffects.m in Sources */,
 				DED49FB51BFAD3FD00E564DC /* myUILabel.m in Sources */,
+				DED951F41C3BDBBA00C22682 /* UserInfoViewController.swift in Sources */,
 				DED49FAC1BFAD3FD00E564DC /* TAAbstractDotView.m in Sources */,
 				DED49F941BFAD3FD00E564DC /* MJRefreshAutoFooter.m in Sources */,
 				DED49F9E1BFAD3FD00E564DC /* MJRefreshBackStateFooter.m in Sources */,
@@ -911,18 +1088,28 @@
 				DE405E4F1BFAEBAE00AF4DE7 /* SideMenuViewController.swift in Sources */,
 				DED49F961BFAD3FD00E564DC /* MJRefreshComponent.m in Sources */,
 				DED49FB11BFAD3FD00E564DC /* SDCycleScrollView.m in Sources */,
+				DED951F61C3CCF1C00C22682 /* UserInfoEditViewController.swift in Sources */,
+				DED606F11C338C4A00B4DEAF /* SideMenuBtn.swift in Sources */,
 				DED49F981BFAD3FD00E564DC /* MJRefreshHeader.m in Sources */,
+				DED951EC1C3BA2AB00C22682 /* LoginNavigation.swift in Sources */,
 				DE2616451C02B7D800FFB4C2 /* MainTabBarItem.swift in Sources */,
 				DED49FA01BFAD3FD00E564DC /* MJRefreshNormalHeader.m in Sources */,
 				DED49FA51BFAD3FD00E564DC /* UIScrollView+MJRefresh.m in Sources */,
 				DE405E581BFB360200AF4DE7 /* IndexTableMutiCellView.swift in Sources */,
+				DEA5CB3A1C119F9700C6148A /* SuggestViewController.swift in Sources */,
+				DED951F01C3BB62E00C22682 /* RegisterViewController.swift in Sources */,
 				DED49FB31BFAD3FD00E564DC /* UINavigationBar+Awesome.m in Sources */,
 				DED49FA61BFAD3FD00E564DC /* UIView+MJExtension.m in Sources */,
+				DE09BB191C16C0BC0088495A /* AboutusViewController.swift in Sources */,
 				DED49FAD1BFAD3FD00E564DC /* TAAnimatedDotView.m in Sources */,
 				DE59B9D81BFDC26F00871D36 /* WebViewController.swift in Sources */,
 				DED49FAF1BFAD3FD00E564DC /* TAPageControl.m in Sources */,
 				DED49FB61BFAD3FD00E564DC /* MSWeakTimer.m in Sources */,
 				DE1B51B41BFC1EA800436ADE /* IndexTableViewControll.swift in Sources */,
+				DED951EE1C3BA35200C22682 /* LoginViewController.swift in Sources */,
+				DEC30EB41C155BC200DDD5A4 /* SettingMenuViewController.swift in Sources */,
+				DEA5CB381C11716E00C6148A /* SettingViewController.swift in Sources */,
+				DE59BB3E1C3D0A3E00538DE0 /* SideMenuUserInfoView.swift in Sources */,
 				DED49F9C1BFAD3FD00E564DC /* MJRefreshBackGifFooter.m in Sources */,
 				DED49F951BFAD3FD00E564DC /* MJRefreshBackFooter.m in Sources */,
 				DED49F9A1BFAD3FD00E564DC /* MJRefreshAutoNormalFooter.m in Sources */,
@@ -930,13 +1117,16 @@
 				DED49FB01BFAD3FD00E564DC /* SDCollectionViewCell.m in Sources */,
 				DE405E521BFAED2800AF4DE7 /* MainTabBarController.swift in Sources */,
 				DEB236951BFACE040085529D /* AppDelegate.swift in Sources */,
+				DE213D261C181C20005611F7 /* ShopTableViewCell.swift in Sources */,
 				DED49FAB1BFAD3FD00E564DC /* NSData+SDDataCache.m in Sources */,
 				DE405E561BFB35B200AF4DE7 /* IndexTableBigCellView.swift in Sources */,
 				DED49F9F1BFAD3FD00E564DC /* MJRefreshGifHeader.m in Sources */,
 				DEFE0A9F1C0C47EE00E7AD8F /* CatTableCellView.swift in Sources */,
+				DE2679FD1C2D356B00A07F65 /* SearchTitleCellView.swift in Sources */,
 				DED49F9D1BFAD3FD00E564DC /* MJRefreshBackNormalFooter.m in Sources */,
 				DED49F971BFAD3FD00E564DC /* MJRefreshFooter.m in Sources */,
 				DED49F991BFAD3FD00E564DC /* MJRefreshAutoGifFooter.m in Sources */,
+				DE09BB1B1C16C7FC0088495A /* AboutusNavigation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1076,10 +1266,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 90FA98A47E9490C635FBBBA0 /* Pods.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = BrandAsset;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-universal";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				BUNDLE_IDENTIFIE_SUFFIX = "com.iflabs.HelloJames-dev";
 				CODE_SIGN_IDENTITY = "iPhone Developer: YuJie Luo (DH9AGMB66K)";
-				ENABLE_BITCODE = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: YuJie Luo (DH9AGMB66K)";
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1092,6 +1284,7 @@
 					"$(PROJECT_DIR)/HelloJames",
 					"$(PROJECT_DIR)/HelloJames/libWeiboSDK",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -1102,9 +1295,12 @@
 					"\"SwiftyJSON\"",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.iflabs.HelloJames;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.iflabs.HelloJames-dev";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "0c869cd7-c60f-49d5-88d6-00739d73810f";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SWIFT_MODULE_NAME)-header.h";
+				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Debug;
 		};
@@ -1112,10 +1308,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 71B8E16C8E416F35D006F767 /* Pods.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = BrandAsset;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-universal";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				BUNDLE_IDENTIFIE_SUFFIX = com.iflabs.HelloJames;
 				CODE_SIGN_IDENTITY = "iPhone Developer: YuJie Luo (DH9AGMB66K)";
-				ENABLE_BITCODE = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: YuJie Luo (DH9AGMB66K)";
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1138,9 +1336,11 @@
 					"\"SwiftyJSON\"",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.iflabs.HelloJames;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.iflabs.HelloJames-dev";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "0c869cd7-c60f-49d5-88d6-00739d73810f";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SWIFT_MODULE_NAME)-header.h";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

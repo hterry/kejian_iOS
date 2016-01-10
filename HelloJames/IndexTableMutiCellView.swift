@@ -11,8 +11,12 @@ class IndexTableSmallCellView: UITableViewCell {
     @IBOutlet weak var cellView1: IndexTableMutiCellSingleView!
     @IBOutlet weak var cellView2: IndexTableMutiCellSingleView!
     
+    
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        //cell初始化时设置高度
+        self.contentView.frame = CGRectMake(0, 0, self.contentView.frame.width, CGFloat(142)*CGFloat(CGFloat(UIScreen.mainScreen().bounds.width)/CGFloat(375)))
         
         //添加分割线
         //NSLog("%f", UIScreen.mainScreen().bounds.width)
@@ -22,9 +26,9 @@ class IndexTableSmallCellView: UITableViewCell {
         //cellView2.frame.origin=CGPointMake(100,0)
         //cellView1.label.text="title1"
         //cellView2.label.text="title2"
-        let btmLine = UIView(frame: CGRectMake(UIScreen.mainScreen().bounds.width/2, 0, 1, UIScreen.mainScreen().bounds.height))
+        /*let btmLine = UIView(frame: CGRectMake(UIScreen.mainScreen().bounds.width/2-1, 0, 2, UIScreen.mainScreen().bounds.height))
         btmLine.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
-        self.contentView.addSubview(btmLine)
+        self.contentView.addSubview(btmLine)*/
         
         // Initialization code
     }

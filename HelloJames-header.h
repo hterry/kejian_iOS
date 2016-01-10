@@ -26,6 +26,14 @@
 #import "TencentApiInterface.h"
 #import "QQApiInterface.h"
 
+//#import "APService.h"
+//#import "XGPush.h"
+#import "UMessage.h"
+
+//#import "MobClick.h"
+
+#import "BaiduMobStat.h"
+
 
 
 //#import <SDWebImage/UIImageView+WebCache.h>

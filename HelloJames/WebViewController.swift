@@ -18,6 +18,12 @@ class WebViewController: UIViewController,UIWebViewDelegate,UIScrollViewDelegate
     @IBOutlet weak var shareBtn:UIButton!
     @IBOutlet weak var loadingImageView:UIImageView!
     
+    @IBOutlet weak var wxBtn:UIButton!
+    @IBOutlet weak var wxTimelineBtn:UIButton!
+    @IBOutlet weak var sinaBtn:UIButton!
+    @IBOutlet weak var qqBtn:UIButton!
+    @IBOutlet weak var qzoneBtn:UIButton!
+    
     var animator: ZFModalTransitionAnimator!
     
     var jsContext: JSContext?
@@ -30,6 +36,7 @@ class WebViewController: UIViewController,UIWebViewDelegate,UIScrollViewDelegate
     var dragging = false
     var triggered = false
     var newsId = "-1"
+    var newsTitle = ""
     var index = 2
     var isTopStory = false
     var hasImage = true
@@ -90,15 +97,32 @@ class WebViewController: UIViewController,UIWebViewDelegate,UIScrollViewDelegate
         self.webView.delegate = self
         self.webView.scrollView.delegate = self
         self.webView.scrollView.clipsToBounds = false
-        self.webView.scrollView.showsVerticalScrollIndicator = false
+        //self.webView.scrollView.showsVerticalScrollIndicator = false
         
         
         self.sharePopup.layer.setAffineTransform(CGAffineTransformMakeTranslation(0, 144))
         
-        loadingImageView.sd_setImageWithURL(NSURL(string: "http://www.iflabs.cn/app/hellojames/asset/pen.gif"))
+        loadingImageView.sd_setImageWithURL(NSURL(string: "http://www.iflabs.cn/app/hellojames/asset/loading.gif"))
         
         if (newsId=="-1"){
             shareBtn.hidden = true
+        }
+        
+        isShareOpen = true
+        
+        if (!WXApi.isWXAppInstalled()){
+            setBtnHidden(wxBtn,subView: wxTimelineBtn)
+            setBtnHidden(wxTimelineBtn,subView:qqBtn)
+        }
+        
+        if (!WeiboSDK.isWeiboAppInstalled()){
+            setBtnHidden(sinaBtn,subView:sinaBtn.superview!)
+            
+        }
+        
+        if (!QQApiInterface.isQQInstalled()){
+            setBtnHidden(qqBtn,subView:sinaBtn)
+            setBtnHidden(qzoneBtn,subView:wxBtn)
         }
         
         
@@ -116,6 +140,22 @@ class WebViewController: UIViewController,UIWebViewDelegate,UIScrollViewDelegate
         
     }
     
+    func setBtnHidden(btn:UIButton,subView:UIView){
+        btn.hidden = true
+        btn.removeConstraints(btn.constraints)
+        //设置布局里的宽度为0
+        btn.addConstraint(NSLayoutConstraint(item: btn, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 0, constant: 0))
+        //设置布局里的leading为0,必需是父级addConstraint
+        if (btn.superview == subView){
+            subView.addConstraint(NSLayoutConstraint(item: btn, attribute: NSLayoutAttribute.Leading, relatedBy: NSLayoutRelation.Equal, toItem: subView, attribute: NSLayoutAttribute.Leading, multiplier: 1, constant: 0))
+        }
+        else {
+            //相对同级view的leading,toItem相对是Trailing
+            btn.superview!.addConstraint(NSLayoutConstraint(item: btn, attribute: NSLayoutAttribute.Leading, relatedBy: NSLayoutRelation.Equal, toItem: subView, attribute: NSLayoutAttribute.Trailing, multiplier: 1, constant: 0))
+        }
+
+    }
+    
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
@@ -125,16 +165,49 @@ class WebViewController: UIViewController,UIWebViewDelegate,UIScrollViewDelegate
     override func viewWillAppear(animated: Bool) {
         //必须在viewWillAppear设置隐藏，interactivePopGestureRecognizer才能生效
         self.navigationController?.navigationBar.hidden=true
-        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.Default, animated: true)
+        //UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.Default, animated: true)
+        
+        if (!appCloud().checkNetwork()){
+            
+            return
+        }
+        
         if (lastNewsId != newsId){
             
             loadWebView(newsId)
             lastNewsId = newsId
             
+            
+            if (newsId != "-1"){
+            }
+            else{
+            }
         }
         
         //NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "setPopGes", userInfo: nil, repeats: false)
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        //必须在viewWillDisappear设置navigationBar不隐藏，父级主界面才生效，但是在滑动推出页面时navigationBar会出现，不使用此方法
+        //self.navigationController?.navigationBar.hidden=false
+        
+        if (loadingImageView.hidden){
+            if (newsId != "-1"){
+            }
+            else {
+            }
+            
+        }
+        else {
+            if (newsId != "-1"){
+            }
+            else{
+            }
+        }
+    }
+    
+    
     
     
     
@@ -176,7 +249,9 @@ class WebViewController: UIViewController,UIWebViewDelegate,UIScrollViewDelegate
         
         //self.loadNormalHeader()
         if (id != "-1"){
-            let url = "http://www.iflabs.cn/app/hellojames/html/index.html?id=" + id
+            
+            
+            let url = "http://www.iflabs.cn/app/hellojames/html-dev/index.html?id=" + id
             webViewUrl = url
         }
         
@@ -187,23 +262,24 @@ class WebViewController: UIViewController,UIWebViewDelegate,UIScrollViewDelegate
     }
     
     func loadApiFinish(){
+        NSLog("loadApiFinish")
         
+        isShareOpen = false
         
-        UIView.animateWithDuration(0.5, delay:0, options:UIViewAnimationOptions.AllowUserInteraction, animations: {
-            ()-> Void in
-            
-            self.webView.alpha = 1
-            self.loadingImageView.alpha = 0
-            self.loadingImageView.hidden = true
-            
-            },completion:nil)
+        newsTitle = shareInfo.title
+        BaiduMobStat.defaultStat().pageviewStartWithName("文章:"+newsTitle)
+        
     }
     
     func webViewDidFinishLoad(webView: UIWebView) {
-        
-        
+        NSLog("webViewDidFinishLoad")
         if (newsId=="-1"){
-            UIView.animateWithDuration(0.5, delay:0, options:UIViewAnimationOptions.AllowUserInteraction, animations: {
+            BaiduMobStat.defaultStat().pageviewStartWithName("购物:"+newsTitle)
+        }
+        else {
+            
+        }
+        UIView.animateWithDuration(0.5, delay:0, options:UIViewAnimationOptions.AllowUserInteraction, animations: {
                 ()-> Void in
                 
                 self.webView.alpha = 1
@@ -211,9 +287,12 @@ class WebViewController: UIViewController,UIWebViewDelegate,UIScrollViewDelegate
                 self.loadingImageView.hidden = true
                 
                 },completion:nil)
+        
+        if (newsId=="-1"){
             return
         }
-        NSLog("webViewDidFinishLoad")
+        
+        
         let context = webView.valueForKeyPath("documentView.webView.mainFrame.javaScriptContext") as? JSContext
         let model = JSObjCModel()
         model.controller = self
@@ -232,151 +311,7 @@ class WebViewController: UIViewController,UIWebViewDelegate,UIScrollViewDelegate
         }
     }
     
-    //实现Parallax效果
-    /*func scrollViewDidScroll(scrollView: UIScrollView) {
-        //判断是否含图
-        if hasImage {
-            let incrementY = scrollView.contentOffset.y
-            if incrementY < 0 {
-                //不断设置titleLabel及sourceLabel以保证frame正确
-                titleLabel.frame = CGRectMake(15, orginalHeight - 80 - incrementY, self.view.frame.width - 30, 60)
-                sourceLabel.frame = CGRectMake(15, orginalHeight - 20 - incrementY, self.view.frame.width - 30, 15)
-                
-                //保证frame正确
-                //blurView.frame = CGRectMake(0, -85 - incrementY, self.view.frame.width, orginalHeight + 85)
-                
-                //如果下拉超过65pixels则改变图片方向
-                if incrementY <= -65 {
-                    arrowState = true
-                    //如果此时是第一次检测到松手则加载上一篇
-                    guard dragging || triggered else {
-                        //index不能为零, 且不为topStory
-                        if index != 0 && isTopStory == false {
-                            loadNewArticle(true)
-                            triggered = true
-                        }
-                        return
-                    }
-                } else {
-                    arrowState = false
-                }
-                
-                //使Label不被遮挡
-                imageView.bringSubviewToFront(titleLabel)
-                imageView.bringSubviewToFront(sourceLabel)
-            }
-            
-            
-        } else {
-            //如果下拉超过40pixels则改变图片方向
-            if self.webView.scrollView.contentOffset.y <= -40 {
-                arrowState = true
-                //如果此时是第一次检测到松手则加载上一篇
-                guard dragging || triggered else {
-                    //index不能为零, 且不为topStory
-                    if index != 0 {
-                        loadNewArticle(true)
-                        triggered = true
-                    }
-                    return
-                }
-            } else {
-                arrowState = false
-            }
-        }
-    }*/
-    
-    //记录下拉状态
-    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        dragging = false
-    }
-    
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        dragging = true
-    }
-    
-    //设置滑动极限 修改该值需要一并更改layoutWebHeaderViewForScrollViewOffset中的对应值
-    func lockDirection() {
-        self.webView.scrollView.contentOffset.y = -85
-    }
-    
-    //加载新文章
-    func loadNewArticle(previous: Bool) {
-        //生成动画初始位置
-        let offScreenUp = CGAffineTransformMakeTranslation(0, -self.view.frame.height)
-        let offScreenDown = CGAffineTransformMakeTranslation(0, self.view.frame.height)
-        
-        //生成新View并传入新数据
-        let toWebViewController = self.storyboard!.instantiateViewControllerWithIdentifier("webViewController") as! WebViewController
-        let toView = toWebViewController.view
-        toView.frame = self.view.frame
-        
-        //数据相关
-        if isThemeStory == false {
-            //找到上一篇文章的newsID
-            index--
-            if index < appCloud().article.count {
-                let id = appCloud().article[index].id
-                toWebViewController.index = index
-                toWebViewController.newsId = id
-            } else {
-                var newIndex = index - appCloud().article.count
-                
-                //如果取到的不是文章则取上一篇
-                if appCloud().pastContentStory[newIndex] is DateHeaderModel {
-                    index--
-                    newIndex--
-                }
-                
-                //如果因上述情况newIndex = -1 则取contentStory中数据
-                if newIndex > -1 {
-                    let id = (appCloud().pastContentStory[newIndex] as! ContentStoryModel).id
-                    toWebViewController.index = index
-                    toWebViewController.newsId = id
-                } else {
-                    let id = appCloud().contentStory[index].id
-                    toWebViewController.index = index
-                    toWebViewController.newsId = id
-                }
-            }
-        } else {
-            index--
-            let id = appCloud().themeContent!.stories[index].id
-            toWebViewController.index = index
-            toWebViewController.newsId = id
-            toWebViewController.isThemeStory = true
-        }
-        
-        //取得已读新闻数组以供修改
-        var readNewsIdArray = NSUserDefaults.standardUserDefaults().objectForKey(Keys.readNewsId) as! [String]
-        
-        //记录已被选中的id
-        readNewsIdArray.append(toWebViewController.newsId)
-        NSUserDefaults.standardUserDefaults().setObject(readNewsIdArray, forKey: Keys.readNewsId)
-        
-        //生成原View截图并添加到主View上
-        let fromView = self.view.snapshotViewAfterScreenUpdates(true)
-        self.view.addSubview(fromView)
-        
-        //将toView放置到屏幕之外并添加到主View上
-        toView.transform = offScreenUp
-        self.view.addSubview(toView)
-        self.addChildViewController(toWebViewController)
-        
-        //动画开始
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
-            //fromView下滑出屏幕，新View滑入屏幕
-            fromView.transform = offScreenDown
-            toView.transform = CGAffineTransformIdentity
-            }, completion: { (success) -> Void in
-                //动画完成后清理底层webView、statusBarBackground，以及滑出屏幕的fromView，这里也有问题，多次加载新文章会每次留一层UIView 待解决
-                self.webView.removeFromSuperview()
-                //self.statusBarBackground.removeFromSuperview()
-                fromView.removeFromSuperview()
-        })
-        
-        
-    }
+  
     
     @IBAction func backSelect(){
         NSLog("backSelect")
@@ -411,14 +346,15 @@ class WebViewController: UIViewController,UIWebViewDelegate,UIScrollViewDelegate
     }
     
     func gotoShopping(url:String){
+        
         let webViewController = self.storyboard?.instantiateViewControllerWithIdentifier("webViewController") as!WebViewController
         webViewController.newsId = "-1"
+        webViewController.newsTitle = newsTitle
         webViewController.webViewUrl = url
         
         let backItem = UIBarButtonItem()
         backItem.title = "返回"
         self.navigationItem.backBarButtonItem = backItem
-        
         
         animator = ZFModalTransitionAnimator(modalViewController: webViewController)
         self.animator.dragable = true
@@ -472,7 +408,7 @@ class WebViewController: UIViewController,UIWebViewDelegate,UIScrollViewDelegate
         if (isShareOpen){
             return
         }
-        
+        BaiduMobStat.defaultStat().logEvent("shareOpen", eventLabel: newsTitle)
         UIView.animateWithDuration(0.3, delay:0, options:UIViewAnimationOptions.AllowUserInteraction, animations: {
             ()-> Void in
             
@@ -493,6 +429,7 @@ class WebViewController: UIViewController,UIWebViewDelegate,UIScrollViewDelegate
         if (!isShareOpen){
             return
         }
+        
         UIView.animateWithDuration(0.3, delay:0, options:UIViewAnimationOptions.AllowUserInteraction, animations: {
             ()-> Void in
             
@@ -515,7 +452,7 @@ class WebViewController: UIViewController,UIWebViewDelegate,UIScrollViewDelegate
     
     func shareSend(type:String = ""){
         NSLog("shareInfo:%@", String(shareInfo))
-        
+        BaiduMobStat.defaultStat().logEvent("shareSelect", eventLabel: type)
         if (type=="wx_friend"||type=="wx_timeline"){
             var message:WXMediaMessage = WXMediaMessage()
             message.title = shareInfo.title
@@ -532,9 +469,9 @@ class WebViewController: UIViewController,UIWebViewDelegate,UIScrollViewDelegate
             message.setThumbImage(UIGraphicsGetImageFromCurrentImageContext())
             
             var ext:WXWebpageObject = WXWebpageObject()
-            ext.webpageUrl = webViewUrl
+            ext.webpageUrl = webViewUrl+"&platform="+type
             message.mediaObject = ext
-            message.mediaTagName = "测试"
+            message.mediaTagName = "课间"
             var req = SendMessageToWXReq()
             var scene:Int!
             if (type=="wx_friend"){
@@ -544,7 +481,7 @@ class WebViewController: UIViewController,UIWebViewDelegate,UIScrollViewDelegate
                 scene = 1
             }
             req.scene = Int32(scene)//0:分享朋友，1:分享朋友圈，2:收藏
-            req.text = "分享测试"
+            req.text = "课间"
             req.bText = false
             req.message = message
             
@@ -554,7 +491,7 @@ class WebViewController: UIViewController,UIWebViewDelegate,UIScrollViewDelegate
         if (type=="weibo"){
             if (WeiboSDK.isCanSSOInWeiboApp()){
                 var wbMessage:WBMessageObject = WBMessageObject()
-                wbMessage.text = "#HelloJames# " +  shareInfo.title + String(" ") + shareInfo.des + "...... | 阅读原文:" + webViewUrl
+                wbMessage.text = "#课间# " +  shareInfo.title + String(" ") + shareInfo.des + "...... | 阅读原文:" + webViewUrl+"&platform="+type
                 var wbImage:WBImageObject = WBImageObject()
                 wbImage.imageData = shareImageData
                 wbMessage.imageObject = wbImage
@@ -567,7 +504,7 @@ class WebViewController: UIViewController,UIWebViewDelegate,UIScrollViewDelegate
         
         if (type=="qq"||type=="qzone"){
             
-            let newsObj:QQApiNewsObject = QQApiNewsObject(URL: NSURL(string: webViewUrl), title: shareInfo.title, description: shareInfo.des, previewImageData: shareImageData, targetContentType: QQApiURLTargetTypeNews)
+            let newsObj:QQApiNewsObject = QQApiNewsObject(URL: NSURL(string: webViewUrl+"&platform="+type), title: shareInfo.title, description: shareInfo.des, previewImageData: shareImageData, targetContentType: QQApiURLTargetTypeNews)
             
             let req:SendMessageToQQReq = SendMessageToQQReq(content: newsObj)
             
@@ -598,19 +535,20 @@ class WebViewController: UIViewController,UIWebViewDelegate,UIScrollViewDelegate
 @objc protocol JavaScriptSwiftDelegate: JSExport {
     func webViewTouchBegan();
     func getShareInfo(dict: [String: AnyObject]);
-    func gotoArticle(id :String);
-    func gotoShopping(url :String);
+    func gotoArticle(dict: [String: AnyObject]);
+    func gotoShopping(dict: [String: AnyObject]);
+    func joinusBtnClick();
+    func businessBtnClick();
+    func legalBtnClick();
     
     func callSystemCamera();
     
     func showAlert(title: String, msg: String);
     
-    func callWithDict(dict: [String: AnyObject])
-    
-    func jsCallObjcAndObjcCallJsWithDict(dict: [String: AnyObject]);
 }
 @objc class JSObjCModel: NSObject, JavaScriptSwiftDelegate {
     weak var controller: WebViewController?
+    weak var controller2: AboutusViewController?
     weak var jsContext: JSContext?
     
     func webViewTouchBegan() {
@@ -618,7 +556,7 @@ class WebViewController: UIViewController,UIWebViewDelegate,UIScrollViewDelegate
     }
     
     func getShareInfo(dict: [String: AnyObject]){
-        NSLog("@getShareInfo:%@",String(dict["thumb"] as! String))
+        NSLog("getShareInfo:%@",String(dict["thumb"] as! String))
         controller?.shareInfo=ShareModel(thumb: dict["thumb"] as! String, id: dict["id"] as! String, title: dict["title"] as! String, des: dict["des"] as! String)
         
         controller?.shareImageData = NSData(contentsOfURL: NSURL(string: (controller?.shareInfo.thumb)!)!)!
@@ -627,15 +565,42 @@ class WebViewController: UIViewController,UIWebViewDelegate,UIScrollViewDelegate
         controller?.loadApiFinish()
     }
     
-    func gotoArticle(id :String){
-        NSLog("@gotoArticle:%@",id)
+    func gotoArticle(dict: [String: AnyObject]){
+        NSLog("gotoArticle:%@",String(dict))
+        
+        let id = String(dict["id"] as! String)
+        let otherTitle = String(dict["otherTitle"] as! String)
+        let isBig = String(dict["isBig"] as! String)
+        
+        BaiduMobStat.defaultStat().logEvent("gotoOtherArticle", eventLabel: controller!.newsTitle+":"+isBig+"大图")
         controller!.gotoOtherArticle(id)
     }
     
-    func gotoShopping(url: String) {
+    func gotoShopping(dict: [String: AnyObject]) {
         
-        NSLog("@gotoShopping:%@",url)
+        NSLog("gotoShopping:%@",String(dict))
+        
+        let url = String(dict["url"] as! String)
+        let isBig = String(dict["isBig"] as! String)
+        
+        BaiduMobStat.defaultStat().logEvent("gotoShopping", eventLabel: controller!.newsTitle)
+        
         controller!.gotoShopping(url)
+    }
+    
+    func joinusBtnClick(){
+        NSLog("joinusBtnClick")
+        controller2!.openJoinus()
+    }
+    
+    func businessBtnClick(){
+        NSLog("businessBtnClick")
+        controller2!.openBusiness()
+    }
+    
+    func legalBtnClick() {
+        NSLog("legalBtnClick")
+        controller2!.gotoLegal()
     }
     
     func callSystemCamera() {
@@ -646,7 +611,7 @@ class WebViewController: UIViewController,UIWebViewDelegate,UIScrollViewDelegate
     }
     
     func showAlert(title: String, msg: String) {
-        NSLog("@showAlert")
+        NSLog("showAlert")
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             let alert = UIAlertController(title: title, message: msg, preferredStyle: .Alert)
             alert.addAction(UIAlertAction(title: "ok", style: .Default, handler: nil))
@@ -654,17 +619,5 @@ class WebViewController: UIViewController,UIWebViewDelegate,UIScrollViewDelegate
         }
     }
     
-    // JS调用了我们的方法
-    func callWithDict(dict: [String : AnyObject]) {
-        print("js call objc method: callWithDict, args: %@", dict)
-    }
     
-    // JS调用了我们的就去
-    func jsCallObjcAndObjcCallJsWithDict(dict: [String : AnyObject]) {
-        print("js call objc method: jsCallObjcAndObjcCallJsWithDict, args: %@", dict)
-        
-        let jsParamFunc = self.jsContext?.objectForKeyedSubscript("jsParamFunc");
-        let dict = NSDictionary(dictionary: ["age": 18, "height": 168, "name": "lili"])
-        jsParamFunc?.callWithArguments([dict])
-    }
 }

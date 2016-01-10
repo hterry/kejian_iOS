@@ -9,20 +9,42 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
-
+import CryptoSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, WeiboSDKDelegate, TencentSessionDelegate {
     
     var window: UIWindow?
+    var version = "1.1"
+    var appStoreLink = "itms-apps://itunes.apple.com/gb/app/"
+    
+    var userInfo:UserInfo!
+    
+    var currentCatid:String = "-1"
+    var currentCatName:String = "最新"
+    
+    var articleList: [ArticleListModel] = []
     var article: [ArticleModel] = []
-    var contentStory: [ContentStoryModel] = []
-    var pastContentStory: [PastContentStoryItem] = []
-    var offsetYValue: [(CGFloat, String)] = []
+    
+    var product:[ProductModel] = []
+    var loadedProductList:[String] = []
+    
     var cats: [CatModel] = []
-    var themeContent: ThemeContentModel?
     var firstDisplay = true
     var dataDate:Int = 0;
+    var isPushOpen = false
+    var loadedArticleList:[String] = []
+    
+    var searchData:[SearchModel] = []
+    
+    var tabelViewHeader:MJRefreshHeader! = nil
+    var shopTabelViewHeader:MJRefreshHeader! = nil
+    var tabelViewFooter:MJRefreshFooter! = nil
+    var shopTabelViewFooter:MJRefreshFooter! = nil
+    var searchTableViewHeader:MJRefreshHeader! = nil
+    var searchTableViewFooter:MJRefreshFooter! = nil
+    
+    var userStoryBoard:UIStoryboard!
     
     let redColor:UIColor = UIColor(red: 242/255, green: 0, blue: 137/255, alpha: 1)
     let blueColor:UIColor = UIColor(red: 0, green: 174/255, blue: 255/255, alpha: 1)
@@ -30,13 +52,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WeiboSDKDelegate, Tencent
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
+        userStoryBoard = UIStoryboard(name: "User", bundle: nil)
+        
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Fade)
+        
         //自定义全局UINavigationBar
         UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor()]
         UINavigationBar.appearance().tintColor=UIColor(white: 1, alpha: 1)
         UINavigationBar.appearance().barTintColor=UIColor(red: 0, green: 0, blue: 0, alpha: 1)
         UINavigationBar.appearance().backItem?.title="返回"
-        //获取文章内容
-        //getTodayData()
         
         //获取栏目列表
         getCatData()
@@ -47,20 +72,134 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WeiboSDKDelegate, Tencent
             NSUserDefaults.standardUserDefaults().setObject(readNewsIdArray, forKey: Keys.readNewsId)
         }
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("networkStatusChanged:"), name: ReachabilityStatusChangedNotification, object: nil)
+        Reach().monitorReachabilityChanges()
+        
         
         //shareSDK
         //ShareSDK.connectWeChatFavWithAppId("wxcb5845e578922637", appSecret: "01d4879c888b8ac1c582a0f037f0592d",wechatCls: WXApi.classForCoder())
-        WXApi.registerApp("wxcb5845e578922637")
+        WXApi.registerApp("wx97ed15df8f6ea971")
         
-        WeiboSDK.enableDebugMode(true)
-        WeiboSDK.registerApp("3899209537")
+        //WeiboSDK.enableDebugMode(true)
+        WeiboSDK.registerApp("1947160717")
         
         TencentOAuth.init(appId: "1104927341", andDelegate: self)
         
+        UMessage.startWithAppkey("566ba092e0f55a3cea006b9b", launchOptions:launchOptions)
+        //UMessage.setLogEnabled(true)
+        if application.respondsToSelector("registerUserNotificationSettings:") {
+            
+            let settings:UIUserNotificationSettings = UIUserNotificationSettings(forTypes:[.Alert,.Badge] , categories: nil)
+            
+            UMessage.registerRemoteNotificationAndUserNotificationSettings(settings)
+            
+            //application.registerUserNotificationSettings(settings)
+            //application.registerForRemoteNotifications()
+            
+        } else {
+            // Register for Push Notifications before iOS 8
+            
+            UMessage.registerForRemoteNotificationTypes([.Alert,.Badge])
+            
+            //application.registerForRemoteNotificationTypes([.Alert,.Sound,.Badge])
+            
+            
+        }
+        
+        //腾讯信鸽
+        /*XGPush.startApp(2200169925,appKey:"I3QS29FFH73R")
+        XGPush.setAccount("Terry")*/
+        //JPush
+        
+        /*APService.registerForRemoteNotificationTypes(UIUserNotificationType.Badge.rawValue | UIUserNotificationType.Sound.rawValue | UIUserNotificationType.Alert.rawValue, categories: nil)
+        
+        APService.setupWithOption(launchOptions)*/
+        
+        BaiduMobStat.defaultStat().enableDebugOn = true
+        BaiduMobStat.defaultStat().channelId = "AppStore"
+        BaiduMobStat.defaultStat().shortAppVersion = version
+        BaiduMobStat.defaultStat().startWithAppId("67d0d6ac5c")
+        
+        
+        //MobClick.startWithAppkey("5667904be0f55aeb2000115a")
+        //MobClick.startWithAppkey("5667904be0f55aeb2000115a", reportPolicy: BATCH, channelId: "tongbutui")
+        //MobClick.setLogEnabled(true)
+        
+        getAppInfo()
+        
+        NSLog("launchOptions:%@",String(launchOptions))
+        if (launchOptions != nil){
+            let userInfo = launchOptions![UIApplicationLaunchOptionsRemoteNotificationKey]
+            
+            if ((userInfo) != nil){
                 
+                NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector:("lanuchGotoArticle:"), userInfo: userInfo, repeats: false)
+                
+                UMessage.didReceiveRemoteNotification(userInfo! as! [NSObject : AnyObject])
+            }
+        }
+        
+        userInfo=UserInfo()
+        userInfo.username = "January"
+        
+        let aes = try!
+            "terry".aesEncrypt("bbA3H18lkVbQDfak")
+        NSLog("AES:%@",aes)
+        //NSLog("md5:%@","terry".md5())
         return true
     }
     
+    func lanuchGotoArticle(timer:NSTimer){
+        let newsid = timer.userInfo!["newsid"]
+        
+        NSLog("launchOptionsDidReceiveRemoteNotification:%@", String(newsid))
+    NSNotificationCenter.defaultCenter().postNotificationName("pushToArticle", object: String(newsid!!.integerValue!))
+    }
+    
+    //将deviceToken注册到JPush
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        
+        NSLog("didRegisterForRemoteNotificationsWithDeviceToken:%@",String(deviceToken))
+        //534d79e2b586ce5b01b9657a0e22bfcdd5130fe3ccb1391ae69da7769fdccc3c
+        //APService.registerDeviceToken(deviceToken)
+        
+        //XGPush.registerDevice(deviceToken)
+        UMessage.registerDeviceToken(deviceToken)
+    }
+    
+    //推送通知状态更改
+    func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+        NSLog("didRegisterUserNotificationSettings:%@",String(notificationSettings.types))
+        
+        if (notificationSettings.types == UIUserNotificationType.None){
+            isPushOpen = false
+        }
+        else {
+            isPushOpen = true
+        }
+    }
+    
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        NSLog("didFailToRegisterForRemoteNotificationsWithError")
+        
+    }
+    //从通知进入app
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        NSLog("didReceiveRemoteNotification")
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        if (application.applicationState == UIApplicationState.Inactive){
+            let newsid = userInfo["newsid"]
+            
+            NSLog("didReceiveRemoteNotification:%@", String(newsid))
+            
+            
+            NSNotificationCenter.defaultCenter().postNotificationName("pushToArticle", object: String(newsid!.integerValue!))
+        }
+        //APService.handleRemoteNotification(userInfo)
+        UMessage.didReceiveRemoteNotification(userInfo)
+    }
+    
+  
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
         return WeiboSDK.handleOpenURL(url, delegate: self )
     }
@@ -113,195 +252,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WeiboSDKDelegate, Tencent
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-    //获取最新文章列表数据
-    func getArticleData(catid:String = "-1"){
-        NSLog("getArticleData:%@",catid)
-        //NSLog("%@", "http://www.iflabs.cn/app/hellojames/api/api.php?type=getNewsList&catid="+catid)
-        Alamofire.request(.GET, "http://www.iflabs.cn/app/hellojames/api/api.php?type=getNewsList&catid="+catid).responseJSON { (_, _, resultData) -> Void in
-            guard resultData.error == nil else {
-                print("数据获取失败")
-                return
-            }
-            let data = JSON(resultData.value!)
-            var articleData = data["list"]
-            NSLog("%@", String(articleData))
-            var pastMuti = false
-            for i in 0 ..< articleData.count {
-                if (!pastMuti){
-                    let count = self.article.count + i
-                    self.article.append(ArticleModel(thumb: String(articleData[i]["thumb"]), id: String(articleData[i]["id"]), title: String(articleData[i]["title"])))
-                    NSLog("%d",i)
-                    NSLog("%@", String(articleData[i]["title"]))
-                    
-                    self.article[self.article.count-1].thumb=String(articleData[i]["thumb"])
-                    
-                    if (articleData[i]["showType"]=="0"){
-                        
-                        self.article[self.article.count-1].subTitle1=articleData[i]["subTitle1"].string!
-                        self.article[self.article.count-1].subTitle2=articleData[i]["subTitle2"].string!
-                        self.article[self.article.count-1].subTitle3=articleData[i]["subTitle3"].string!
-                        self.article[self.article.count-1].showType="big"
-                        self.article[self.article.count-1].bgcolor=Int(arc4random() % 3 )
-                    }
-                    else {
-                        self.article[self.article.count-1].showType="muti"
-                        if ((i+1<articleData.count)){
-                            if (articleData[i+1]["showType"] != "0"){
-                                self.article[self.article.count-1].id2=String(articleData[i+1]["id"])
-                                self.article[self.article.count-1].title2=String(articleData[i+1]["title"].string!)
-                                self.article[self.article.count-1].thumb2=articleData[i+1]["thumb"].string!
-                                pastMuti=true
-                            }
-                            else {
-                                self.article[self.article.count-1].thumb2=""
-                                pastMuti=false
-                            }
-                        }
-                        else {
-                            self.article[self.article.count-1].thumb2=""
-                            pastMuti=false
-                        }
-                        
-                        continue
-                    }
-                }
-                if (pastMuti){
-                    pastMuti=false
-                }
-            }
-            NSNotificationCenter.defaultCenter().postNotificationName("articleDataGet", object: nil)
-            //NSLog("%@", String(self.article))
-        }
-        
+    func networkStatusChanged(notification: NSNotification) {
+        let userInfo = notification.userInfo
+        NSLog("network:%@", String(Reach().connectionStatus()))
     }
     
-    // MARK: - 数据相关
-    func getTodayData() {
-        NSLog("getTodayData")
-        contentStory = []
-        Alamofire.request(.GET, "http://news-at.zhihu.com/api/4/news/latest").responseJSON { (_, _, resultData) -> Void in
-            guard resultData.error == nil else {
-                print("数据获取失败")
-                return
+    func checkNetwork()->Bool{
+        let status = Reach().connectionStatus()
+        if (status.description == ReachabilityStatus.Offline.description || status.description == ReachabilityStatus.Unknown.description){
+            if (self.tabelViewHeader != nil){
+                self.tabelViewHeader.endRefreshing()
             }
-            let data = JSON(resultData.value!)
-            //取到本日文章列表数据
-            let topStoryData = data["top_stories"]
-            let contentStoryData = data["stories"]
-            
-            //注入topStory
-            /*for i in 0 ..< topStoryData.count {
-                self.topStory.append(TopStoryModel(image: topStoryData[i]["image"].string!, id: String(topStoryData[i]["id"]), title: topStoryData[i]["title"].string!))
-            }*/
-            //注入contentStory
-            var pastMuti = false
-            for i in 0 ..< contentStoryData.count {
-                if (!pastMuti){
-                    self.contentStory.append(ContentStoryModel(images: [contentStoryData[i]["images"][0].string!], id: String(contentStoryData[i]["id"]), title: contentStoryData[i]["title"].string!))
-                    if Float(Float(i)/3) == Float(floor(Double(i/3))){
-                        self.contentStory[self.contentStory.count-1].showType="big"
-                        self.contentStory[self.contentStory.count-1].bgcolor=Int(arc4random() % 2 )
-                    }
-                    else {
-                        self.contentStory[self.contentStory.count-1].showType="muti"
-                        if (i+1<contentStoryData.count){
-                            self.contentStory[self.contentStory.count-1].id2=String(contentStoryData[i+1]["id"])
-                            self.contentStory[self.contentStory.count-1].title2=String(contentStoryData[i+1]["title"].string!)
-                            self.contentStory[self.contentStory.count-1].images2=[contentStoryData[i+1]["images"][0].string!]
-                            
-                        }
-                        else {
-                            self.contentStory[self.contentStory.count-1].images2=[""]
-                        }
-                        
-                        pastMuti=true
-                        continue
-                    }
-                }
-                
-                if (pastMuti){
-                    pastMuti=false
-                }
+            if (self.tabelViewFooter != nil){
+                self.tabelViewFooter.endRefreshing()
             }
-            //设置offsetYValue
-            //self.offsetYValue.append((120 + CGFloat(contentStoryData.count) * 93, "今日热闻"))
-            //发出完成通知
-            NSNotificationCenter.defaultCenter().postNotificationName("todayDataGet", object: nil)
+            if (self.shopTabelViewHeader != nil){
+                self.shopTabelViewHeader.endRefreshing()
+            }
+            if (self.shopTabelViewFooter != nil){
+                self.shopTabelViewFooter.endRefreshing()
+            }
+            NSNotificationCenter.defaultCenter().postNotificationName("openNetworkAlert", object: nil)
+            return false
             
-            //获取过去三天的文章内容
-            //self.getPastData()
         }
+        return true
+
     }
     
-    func getPastData() {
-        self.dataDate+=1;
-        
-        let before:NSDate = NSDate().dateByAddingTimeInterval(28800-Double(self.dataDate)*86400)
-        let beforeURL = getCalenderString(NSDate().dateByAddingTimeInterval(28800-Double(self.dataDate)*86400).description)
-        
-        
-        NSLog("url:%@","http://news.at.zhihu.com/api/4/news/before/" + beforeURL)
-        Alamofire.request(.GET, "http://news.at.zhihu.com/api/4/news/before/" + beforeURL).responseJSON { (_, _, resultData) -> Void in
-            guard resultData.error == nil else {
-                print("数据获取失败")
+    func getAppInfo(){
+        Alamofire.request(.GET, "http://www.iflabs.cn/app/hellojames/api/api.php?type=getAppInfo").responseJSON { (_, _, dataResult) -> Void in
+            guard dataResult.error == nil else {
+                print("获取数据失败")
                 return
             }
-            let data = JSON(resultData.value!)
+            let data = JSON(dataResult.value!)
+            self.appStoreLink = String(data["applink"])
             
-            //取得日期Cell数据
-            let tempDateString = self.getDetailString(beforeURL)+before.dayOfWeek()
-            self.pastContentStory.append(DateHeaderModel(dateString: tempDateString))
-            
-            //取得文章列表数据
-            
-            let contentStoryData = data["stories"]
-            
-            //注入pastContentStory
-            
-            var pastMuti = false
-            for i in 0 ..< contentStoryData.count {
-                if (!pastMuti){
-                    self.contentStory.append(ContentStoryModel(images: [contentStoryData[i]["images"][0].string!], id: String(contentStoryData[i]["id"]), title: contentStoryData[i]["title"].string!))
-                    if Float(Float(i)/3) == Float(floor(Double(i/3))){
-                        self.contentStory[self.contentStory.count-1].showType="big"
-                        self.contentStory[self.contentStory.count-1].bgcolor=Int(arc4random() % 2 )
-                    }
-                    else {
-                        self.contentStory[self.contentStory.count-1].showType="muti"
-                        if (i+1<contentStoryData.count){
-                            
-                            self.contentStory[self.contentStory.count-1].id2=String(contentStoryData[i+1]["id"])
-                            self.contentStory[self.contentStory.count-1].title2=String(contentStoryData[i+1]["title"].string!)
-                            self.contentStory[self.contentStory.count-1].images2=[contentStoryData[i+1]["images"][0].string!]
-                            
-                        }
-                        else {
-                            self.contentStory[self.contentStory.count-1].images2=[""]
-                            NSLog("mutiEmpty")
-                        }
-                        
-                        pastMuti=true
-                        continue
-                    }
-                }
-                
-                if (pastMuti){
-                    pastMuti=false
-                }
-            }
-            
-            //设置offsetYValue
-            //self.offsetYValue.append((self.offsetYValue.last!.0 + 30 + CGFloat(contentStoryData.count) * 93, tempDateString))
-            
-            NSNotificationCenter.defaultCenter().postNotificationName("pastDataGet", object: nil)
-            
-            //NSLog("%@", String(self.offsetYValue))
+            NSLog("appLink:%@", self.appStoreLink)
         }
-        
-        
     }
     //获取栏目列表数据
     func getCatData() {
+        currentCatid = "-1"
+        self.articleList.append(ArticleListModel(catid: "-1",list: []))
+        self.cats = []
         Alamofire.request(.GET, "http://www.iflabs.cn/app/hellojames/api/api.php?type=getCatList").responseJSON { (_, _, dataResult) -> Void in
             guard dataResult.error == nil else {
                 print("获取数据失败")
@@ -312,10 +307,316 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WeiboSDKDelegate, Tencent
             let data = JSON(dataResult.value!)["catList"]
             for i in 0 ..< data.count {
                 self.cats.append(CatModel(id: String(data[i]["id"]), name: data[i]["name"].string!, image:data[i]["image"].string!, color:data[i]["color"].string!))
+                
+                
             }
+            
+            
+            
             NSNotificationCenter.defaultCenter().postNotificationName("catListDataGet", object: nil)
         }
     }
+    
+    func getCatName(catid:String)->String{
+        for i in 0 ..< cats.count {
+            if (catid == cats[i].id){
+                return cats[i].name
+            }
+        }
+        return ""
+        
+    }
+    
+    func getArticleListModel(catid:String)->ArticleListModel{
+        
+        
+        for i in 0 ..< articleList.count {
+            if (catid == articleList[i].catid){
+                return articleList[i]
+            }
+        }
+        return ArticleListModel(catid: "",list: [])
+    }
+    
+    //获取最新文章列表数据
+    var lastSingleMuti:Int! = -1
+    var lastUpdateTime:String = ""
+    func getArticleData(catid:String = "-1",type:String = "refresh"){
+        NSLog("getArticleData:%@",catid)
+        
+        if (!checkNetwork()){
+            
+            return
+        }
+        
+        //输出上一天日期
+        /*self.dataDate+=1;
+        let before:NSDate = NSDate().dateByAddingTimeInterval(28800-Double(self.dataDate)*86400)
+        let beforeURL = getCalenderString(NSDate().dateByAddingTimeInterval(28800-Double(self.dataDate)*86400).description)*/
+        
+        if (type == "getMore"){
+            //article = getArticleListModel(catid).list
+        }
+        if (type == "refresh"){
+            
+            //article = []
+            lastSingleMuti = -1
+        }
+        
+        var  timeInterval:String = String(NSDate().timeIntervalSince1970)
+        if (type == "getMore"){
+            timeInterval = lastUpdateTime
+        }
+        
+        Alamofire.request(.GET,
+            "http://www.iflabs.cn/app/hellojames/api/api.php?type=getNewsList&catid="+catid+"&updateTime="+String(timeInterval)).responseJSON { (_, _, resultData) -> Void in
+            guard resultData.error == nil else {
+                print("数据获取失败")
+                return
+            }
+            if (type == "refresh"){
+                    
+                self.article = []
+            }
+            let data = JSON(resultData.value!)
+            NSLog("data:%@",String(data))
+            var articleData = data["list"]
+            var pastMuti = false
+                
+            if (articleData.count<=0){
+                if (type == "getMore"){
+                    self.tabelViewFooter.endRefreshingWithNoMoreData()
+                }
+                return
+            }
+                
+            self.lastUpdateTime = String(articleData[articleData.count-1]["inputTime"])
+            for i in 0 ..< articleData.count {
+                if (!pastMuti){
+                    var count:Int!
+                    count = self.article.count
+                    
+                    if (articleData[i]["showType"]=="0"){
+                        self.article.append(ArticleModel(thumb: String(articleData[i]["thumb"]), id: String(articleData[i]["id"]), catName:self.getCatName(String(articleData[i]["catid"])), title: String(articleData[i]["title"])))
+                        
+                        
+                        
+                        self.article[count].thumb=String(articleData[i]["thumb"])
+
+                        
+                        self.article[count].subTitle1=articleData[i]["subTitle1"].string!
+                        self.article[count].subTitle2=articleData[i]["subTitle2"].string!
+                        self.article[count].subTitle3=articleData[i]["subTitle3"].string!
+                        self.article[count].showType="big"
+                        if (articleData[i]["titleColor"].string! == "random"){
+                            //self.article[count].bgcolor=Int(arc4random() % 3 )
+                            self.article[count].bgcolor = -1
+                        }
+                        else {
+                            if (articleData[i]["titleColor"].string! == "red"){
+                                self.article[count].bgcolor=0
+                            }
+                            if (articleData[i]["titleColor"].string! == "green"){
+                                self.article[count].bgcolor=1
+                            }
+                            if (articleData[i]["titleColor"].string! == "blue"){
+                                self.article[count].bgcolor=2
+                            }
+                        }
+                    }
+                    else {
+                        if (self.lastSingleMuti == -1){
+                            
+                            self.article.append(ArticleModel(thumb: String(articleData[i]["thumb"]), id: String(articleData[i]["id"]), catName:self.getCatName(String(articleData[i]["catid"])), title: String(articleData[i]["title"])))
+                            
+                            
+                            self.article[count].thumb=String(articleData[i]["thumb"])
+
+                            
+                            self.article[count].showType="muti"
+                            if ((i+1<articleData.count)){
+                                if (articleData[i+1]["showType"] != "0"){
+                                    self.article[count].id2=String(articleData[i+1]["id"])
+                                    self.article[count].catName2=self.getCatName(String(articleData[i+1]["catid"]))
+                                    self.article[count].title2=String(articleData[i+1]["title"].string!)
+                                    self.article[count].thumb2=articleData[i+1]["thumb"].string!
+                                    pastMuti=true
+                                }
+                                else {
+                                    
+                                    self.article[count].thumb2=""
+                                    pastMuti=false
+                                    self.lastSingleMuti=count
+                                }
+                            }
+                            else {
+                                self.article[count].thumb2=""
+                                pastMuti=false
+                                self.lastSingleMuti=count
+                            }
+                            
+                            continue
+                        }
+                        else {
+                            NSLog("lastSingleMuti")
+                            self.article[self.lastSingleMuti].id2=String(articleData[i]["id"])
+                            self.article[self.lastSingleMuti].catName2=self.getCatName(String(articleData[i]["catid"]))
+                            self.article[self.lastSingleMuti].title2=String(articleData[i]["title"].string!)
+                            self.article[self.lastSingleMuti].thumb2=articleData[i]["thumb"].string!
+                            self.lastSingleMuti = -1
+                            pastMuti=false
+                        }
+                    }
+                }
+                if (pastMuti){
+                    pastMuti=false
+                }
+            }
+                
+            var articleListModel:ArticleListModel = self.getArticleListModel(catid)
+            articleListModel.list = self.article
+            //NSLog("%@", String(self.article))
+            NSNotificationCenter.defaultCenter().postNotificationName("articleDataGet", object: nil)
+            
+        }
+        
+    }
+    
+    var productLastUpdateTime:String = ""
+    func getProductData(type:String){
+        if (!checkNetwork()){
+            
+            return
+        }
+        
+        
+        if (type == "getMore"){
+            //article = getArticleListModel(catid).list
+        }
+        if (type == "refresh"){
+            product = []
+        }
+        
+        var  timeInterval:String = String(NSDate().timeIntervalSince1970)
+        if (type == "getMore"){
+            timeInterval = productLastUpdateTime
+        }
+        NSLog("%@", "http://www.iflabs.cn/app/hellojames/api/api.php?type=getProductList&updateTime="+String(timeInterval))
+        Alamofire.request(.GET,
+            "http://www.iflabs.cn/app/hellojames/api/api.php?type=getProductList&updateTime="+String(timeInterval)).responseJSON { (_, _, resultData) -> Void in
+                guard resultData.error == nil else {
+                    print("数据获取失败")
+                    return
+                }
+                let data = JSON(resultData.value!)
+                var productData = data["list"]
+                
+                if (productData.count<=0){
+                    if (type == "getMore"){
+                        self.shopTabelViewFooter.endRefreshingWithNoMoreData()
+                    }
+                    return
+                }
+                
+                self.productLastUpdateTime = String(productData[productData.count-1]["inputTime"])
+                for i in 0 ..< productData.count {
+                    self.product.append(ProductModel(id: String(productData[i]["id"]), title: String(productData[i]["title"]),location:String(productData[i]["location"]) , image: String(productData[i]["image"]),url: String(productData[i]["url"])))
+                    
+                }
+                //NSLog("%@", String(self.product))
+                NSNotificationCenter.defaultCenter().postNotificationName("productDataGet", object: nil)
+         }
+
+    }
+    
+    var searchLastUpdateTime:String = ""
+    func getSearchData(type:String,keywords:String){
+        if (!checkNetwork()){
+            return
+        }
+        
+        NSLog("getSearchData")
+        
+        if (type == "getMore"){
+            //article = getArticleListModel(catid).list
+        }
+        
+        var  timeInterval:String = String(NSDate().timeIntervalSince1970)
+        if (type == "getMore"){
+            timeInterval = searchLastUpdateTime
+        }
+        
+        let keywords2:String! = keywords.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
+        
+        Alamofire.request(.GET,
+            "http://www.iflabs.cn/app/hellojames/api/api.php?type=search&keywords="+keywords2+"&updateTime="+String(timeInterval)).responseJSON { (_, _, resultData) -> Void in
+                guard resultData.error == nil else {
+                    print("数据获取失败")
+                    return
+                }
+                if (type == "refresh"){
+                    self.searchData = []
+                }
+                
+                let data = JSON(resultData.value!)
+                var searchJsonData = data["list"]
+                NSLog("%@", String(data))
+                
+                if (searchJsonData.count<=0){
+                    if (type == "getMore"){
+                        self.searchTableViewFooter.endRefreshingWithNoMoreData()
+                        
+
+                    }
+                    else {
+                        self.searchTableViewHeader.endRefreshing()
+                        
+                        NSNotificationCenter.defaultCenter().postNotificationName("searchDataGet", object: nil)
+                    }
+                    return
+                }
+                
+                self.searchLastUpdateTime = String(searchJsonData[searchJsonData.count-1]["inputTime"])
+                for i in 0 ..< searchJsonData.count {
+                    self.searchData.append(SearchModel(id: String(searchJsonData[i]["id"]), title: String(searchJsonData[i]["title"]),des:String(searchJsonData[i]["des"]) , author: String(searchJsonData[i]["author"]),time: String(searchJsonData[i]["time"])))
+                    
+                }
+                //NSLog("%@", String(self.product))
+                NSNotificationCenter.defaultCenter().postNotificationName("searchDataGet", object: nil)
+        }
+        
+    }
+    
+    func sendSuggest(txt:String){
+        let txt2 = txt.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
+        NSLog("sendSuggest:%@",txt2!)
+        Alamofire.request(.GET, "http://www.iflabs.cn/app/hellojames/api/api.php?type=sendSuggest&txt"+txt2!)
+    }
+    
+    //用户相关
+    func saveUserInfo(headpicBase64:String){
+        NSLog("saveUserInfo")
+        //let headpicBase642:String! = headpicBase64.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
+        let url = "http://www.iflabs.cn/app/hellojames/api/api.php?type=saveUserInfo"
+        
+        let parameters = [
+            "headpic": headpicBase64]
+        
+        NSLog("%@", url)
+        Alamofire.request(.POST,url,parameters:parameters).responseJSON{ (_, _, resultData) -> Void in
+            guard resultData.error == nil else {
+                print("数据获取失败")
+                return
+            }
+            let data = JSON(resultData.value!)
+            NSLog("saveUserInfoFinish:%@",String(data["result"]))
+            NSLog("saveUserInfoAvatar:%@",String(data["avatar"]))
+            
+            self.userInfo.avatar = String(data["avatar"])
+            NSNotificationCenter.defaultCenter().postNotificationName("updateUserInfo", object:nil)
+        }
+    }
+    
     
     // MARK: - 日期相关
     func getCalenderString(dateString: String) -> String {
@@ -347,7 +648,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WeiboSDKDelegate, Tencent
         return month + "月" + day + "日"
     }
     
-    func getRandomData(){
+    /*func getRandomData(){
         NSLog("getRandomData")
         let ran=(arc4random() % 5) * 2+5
         for i in 0 ..< ran{
@@ -364,7 +665,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WeiboSDKDelegate, Tencent
         }
         
         NSNotificationCenter.defaultCenter().postNotificationName("randomDataGet", object: nil)
-    }
+    }*/
 }
 
 extension NSDate {
@@ -391,6 +692,24 @@ extension NSDate {
             break
         }
         return "未取到数据"
+    }
+}
+import Foundation
+extension String {
+    func aesEncrypt(key: String, iv: String = "0123456789012345") throws -> String{
+        let data = self.dataUsingEncoding(NSUTF8StringEncoding)
+        let enc = try AES(key: key, iv: iv, blockMode:.CBC).encrypt(data!.arrayOfBytes(), padding: PKCS7())
+        let encData = NSData(bytes: enc, length: Int(enc.count))
+        let base64String: String = encData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0));
+        let result = String(base64String)
+        return result
+    }
+    func aesDecrypt(key: String, iv: String = "0123456789012345") throws -> String {
+        let data = NSData(base64EncodedString: self, options: NSDataBase64DecodingOptions(rawValue: 0))
+        let dec = try AES(key: key, iv: iv, blockMode:.CBC).decrypt(data!.arrayOfBytes(), padding: PKCS7())
+        let decData = NSData(bytes: dec, length: Int(dec.count))
+        let result = NSString(data: decData, encoding: NSUTF8StringEncoding)
+        return String(result!)
     }
 }
 

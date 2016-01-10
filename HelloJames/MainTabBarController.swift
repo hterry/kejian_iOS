@@ -13,20 +13,28 @@ class MainTabBarController: UIViewController, UIScrollViewDelegate, SWRevealView
     @IBOutlet weak var item1: UIButton!
     @IBOutlet weak var item2: UIButton!
     @IBOutlet weak var item3: UIButton!
-    @IBOutlet weak var sideMenuBtn: UIButton!
+    @IBOutlet weak var sideMenuBtn: SideMenuBtn!
+    @IBOutlet weak var searchBtn: UIButton!
+    @IBOutlet weak var searchBtnTop:NSLayoutConstraint!
+    
+    var animator: ZFModalTransitionAnimator!
     var scrollView: UIScrollView!
     
-    let totalPageNum = 3
+    let totalPageNum = 2
     var currentPageNum = 1
     
     let tabHeight=72
     
     var tabItemList:[MainTabBarItem!]=[]
-    var manViewList:[UIViewController!]=[]
+    var mainViewList:[UIViewController!]=[]
     
     var isTopBarHide = false
     
     var isIndex = true
+    
+    var blackView:UIView!
+    
+    var alert:UIAlertController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,11 +89,11 @@ class MainTabBarController: UIViewController, UIScrollViewDelegate, SWRevealView
             if (i==0){
                 myViewController = storyboard?.instantiateViewControllerWithIdentifier("indexViewController")
             }
-            if (i==1){
+            /*if (i==1){
                 myViewController = storyboard?.instantiateViewControllerWithIdentifier("main2ViewController")
-            }
-            if (i==2){
-                myViewController = storyboard?.instantiateViewControllerWithIdentifier("main3ViewController")
+            }*/
+            if (i==1){
+                myViewController = storyboard?.instantiateViewControllerWithIdentifier("shopTableViewController")
             }
             myViewController.view.frame.origin=CGPointMake(CGFloat(i)*UIScreen.mainScreen().bounds.width,0)
             myViewController.view.frame.size=CGSizeMake(UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - CGFloat(tabHeight))
@@ -93,18 +101,20 @@ class MainTabBarController: UIViewController, UIScrollViewDelegate, SWRevealView
             self.addChildViewController(myViewController)
             scrollView.addSubview(myViewController!.view)
             
-            manViewList.append(myViewController)
+            mainViewList.append(myViewController)
             //myViewController?.viewDidLoad()
         }
         
         self.view.insertSubview(scrollView, atIndex: 0)
         
+        //blackView.hidden = true
         
         self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         self.view.addGestureRecognizer(self.revealViewController().tapGestureRecognizer())
         
         self.revealViewController().delegate = self
         self.revealViewController().frontViewShadowOpacity = 0
+        self.revealViewController().rearViewRevealWidth = UIScreen.mainScreen().bounds.width*(2/3)
         //self.revealViewController()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "hideTopBar:", name: "hideTopBar", object: nil)
@@ -112,6 +122,15 @@ class MainTabBarController: UIViewController, UIScrollViewDelegate, SWRevealView
         
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "catListSelect:", name: "catListSelect", object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "gotoLoginView", name: "loginBtnSelect", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "gotoUserInfoView", name: "userInfoSelect", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "gotoSettingView", name: "settingBtnSelect", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "gotoAboutusView", name: "aboutusBtnSelect", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "gotoSearchView", name: "searchBtnSelect", object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "pushToArticle:", name: "pushToArticle", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "openNetworkAlert", name: "openNetworkAlert", object: nil)
         
         /*let swipe = UISwipeGestureRecognizer(target:self, action:Selector("swipe:"))
         swipe.direction = UISwipeGestureRecognizerDirection.Right
@@ -139,6 +158,18 @@ class MainTabBarController: UIViewController, UIScrollViewDelegate, SWRevealView
         
         addTabBarItems()
         
+        blackView=UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height))
+        blackView.backgroundColor = UIColor.blackColor()
+        self.view.addSubview(blackView)
+        blackView.alpha = 0
+        
+        searchBtn.hidden = true
+        searchBtn.alpha = 0
+        self.searchBtn.layer.setAffineTransform(CGAffineTransformMakeTranslation(-searchBtn.frame.width, 0))
+        
+        self.view.bringSubviewToFront(sideMenuBtn)
+        self.view.bringSubviewToFront(searchBtn)
+        
         //changeToOtherCat()
         
         //changeToIndex()
@@ -153,6 +184,9 @@ class MainTabBarController: UIViewController, UIScrollViewDelegate, SWRevealView
             self.navigationController?.setNavigationBarHidden(true, animated: true)//隐藏navigationbar
             showTopBar()
         }
+        else {
+            changeToOtherCatView()
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -162,6 +196,19 @@ class MainTabBarController: UIViewController, UIScrollViewDelegate, SWRevealView
             
             self.navigationController?.setNavigationBarHidden(false, animated: true)//进入子页面隐藏navigationbar
             showTopBar()
+        }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if (!isIndex){
+            
+            //两个结合使用，NavigationBar才能出来，并且内容的frame才能调整正确
+            self.navigationController?.setNavigationBarHidden(true, animated: true)
+            self.navigationController?.setNavigationBarHidden(false, animated: true)
+            
+            changeToOtherCatView()
         }
     }
     
@@ -183,27 +230,27 @@ class MainTabBarController: UIViewController, UIScrollViewDelegate, SWRevealView
         let t3=MainTabBarItem(frame: CGRectMake(0, 0, 0, 0))
         
         t1.num=1
-        t2.num=2
-        t3.num=3
+        //t2.num=2
+        t3.num=2
         
         t1.color=UIColor(red: 242/255, green: 0, blue: 137/255, alpha: 1)
         t2.color=UIColor(red: 0, green: 174/255, blue: 255/255, alpha: 1)
         t3.color=UIColor(red: 0, green: 222/255, blue: 0, alpha: 1)
         
         t1.title="新奇趣"
-        t2.title="巴拉巴拉"
+        //t2.title="巴拉巴拉"
         t3.title="传送门"
         
         self.view.addSubview(t1)
-        self.view.addSubview(t2)
+        //self.view.addSubview(t2)
         self.view.addSubview(t3)
         
         t1.makeItem()
-        t2.makeItem()
+        //t2.makeItem()
         t3.makeItem()
         
         tabItemList.append(t1)
-        tabItemList.append(t2)
+        //tabItemList.append(t2)
         tabItemList.append(t3)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "changePageSender:", name: "mainTabBarItemTap", object: nil)
@@ -213,8 +260,6 @@ class MainTabBarController: UIViewController, UIScrollViewDelegate, SWRevealView
         
     }
    
-    
-    
     @IBAction func sideMenuBtnTouch(sender: UIButton?){
         NSLog("sideMenuBtnTouch")
         
@@ -235,12 +280,29 @@ class MainTabBarController: UIViewController, UIScrollViewDelegate, SWRevealView
     }
     
     func changeTabItemState(){
+        let sv:ShopTableViewController = mainViewList[1] as! ShopTableViewController
+        let iv:IndexTableViewController = mainViewList[0] as! IndexTableViewController
         for i in 0..<totalPageNum{
             if (i+1 == currentPageNum){
                 tabItemList[i].changeToSelected()
+                
+                //mainViewList[i]!.scrollEnabled(true)?
+                
+                if (i==1){
+                    iv.tableView.scrollsToTop = false
+                    sv.shopTableView.scrollsToTop = true
+                    sv.appearLoad()
+                }
+                else {
+                    
+                    iv.tableView.scrollsToTop = true
+                    sv.shopTableView.scrollsToTop = false
+                 }
             }
             else {
                 tabItemList[i].changeToUnselected()
+                
+                //mainViewList[i]!.scrollEnabled(false)?
             }
         }
         
@@ -267,24 +329,65 @@ class MainTabBarController: UIViewController, UIScrollViewDelegate, SWRevealView
         
         
     }
-    
+    func revealController(revealController: SWRevealViewController!, willMoveToPosition position: FrontViewPosition) {
+        if (position == FrontViewPosition.Right){
+            
+            UIView.animateWithDuration(0.3, animations: {
+                ()-> Void in
+                self.blackView.alpha = 0.3
+                
+                self.searchBtn.hidden = false
+                self.searchBtn.alpha = 1
+                
+                self.searchBtn.layer.setAffineTransform(CGAffineTransformMakeTranslation(0, 0))
+            })
+            
+            sideMenuBtn.openState()
+        }
+        
+        if (position == FrontViewPosition.Left){
+           
+            UIView.animateWithDuration(0.3, animations: {
+                ()-> Void in
+                self.blackView.alpha = 0
+                self.searchBtn.hidden = true
+                self.searchBtn.alpha = 0
+                self.searchBtn.layer.setAffineTransform(CGAffineTransformMakeTranslation(-self.searchBtn.frame.width, 0))
+            })
+            
+            sideMenuBtn.closeState()
+        }
+    }
     
     func revealController(revealController: SWRevealViewController!, didMoveToPosition position: FrontViewPosition) {
         NSLog("%@",String(position))
         if (position == FrontViewPosition.Right){
             NSLog("didMoveToRight")
             
+            UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.Slide)
+            
             scrollView.bounces = true
             scrollView.scrollEnabled=false
+            UIView.animateWithDuration(0.3, animations: {
+                ()-> Void in
+                self.blackView.alpha = 0.3
+            })
         }
         
         if (position == FrontViewPosition.Left){
             NSLog("didMoveToLeft")
             
+            UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
+            
             scrollView.bounces = true
             if (isIndex){
                 scrollView.scrollEnabled=true
             }
+            
+            UIView.animateWithDuration(0.3, animations: {
+                ()-> Void in
+                self.blackView.alpha = 0
+            })
         }
     }
     
@@ -314,7 +417,7 @@ class MainTabBarController: UIViewController, UIScrollViewDelegate, SWRevealView
         self.item3.layoutIfNeeded()*/
 
         
-        UIView.animateWithDuration(0.5, animations: {
+        UIView.animateWithDuration(0.3, animations: {
             ()-> Void in
             
             for i in 0..<self.totalPageNum {
@@ -347,7 +450,7 @@ class MainTabBarController: UIViewController, UIScrollViewDelegate, SWRevealView
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: UIStatusBarAnimation.Slide)
         
         
-        UIView.animateWithDuration(0.5, delay:0, options:UIViewAnimationOptions.AllowUserInteraction, animations: {
+        UIView.animateWithDuration(0.3, delay:0, options:UIViewAnimationOptions.AllowUserInteraction, animations: {
             ()-> Void in
             
             for i in 0..<self.totalPageNum {
@@ -359,11 +462,16 @@ class MainTabBarController: UIViewController, UIScrollViewDelegate, SWRevealView
             self.item3.layer.setAffineTransform(CGAffineTransformMakeTranslation(0, 0))*/
             
             self.scrollView.layer.setAffineTransform(CGAffineTransformMakeTranslation(0, 0))
-            self.scrollView.frame.size = CGSizeMake(UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - CGFloat(self.tabHeight))
+                        self.sideMenuBtn.alpha = 1
             
-            self.sideMenuBtn.alpha = 1
-            
-        },completion:nil)
+            },completion:{
+                (Bool)-> Void in
+                if (!self.isTopBarHide){
+                    self.scrollView.frame.size = CGSizeMake(UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - CGFloat(self.tabHeight))
+                }
+            }
+        )
+        
     }
     
     func catListSelect(sender:NSNotification){
@@ -373,6 +481,8 @@ class MainTabBarController: UIViewController, UIScrollViewDelegate, SWRevealView
         NSLog("%d",Int(index!))
         if (index==0){
             changeToIndex()
+            
+            
         }
         else {
             changeToOtherCat(String(title!))
@@ -383,9 +493,10 @@ class MainTabBarController: UIViewController, UIScrollViewDelegate, SWRevealView
         NSLog("changeToIndex")
         isIndex = true
         self.navigationController?.setNavigationBarHidden(true, animated: false)
-        self.tabItemList[0].hidden = false
-        self.tabItemList[1].hidden = false
-        self.tabItemList[2].hidden = false
+        
+        for i in 0..<self.totalPageNum {
+            self.tabItemList[i].hidden = false
+        }
         
         scrollView.frame.origin=CGPointMake(0, CGFloat(tabHeight))
         
@@ -396,7 +507,9 @@ class MainTabBarController: UIViewController, UIScrollViewDelegate, SWRevealView
         
         scrollView.frame=CGRectMake(0, CGFloat(tabHeight), UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - CGFloat(tabHeight))
         
-        manViewList[0].view.frame.size=CGSizeMake(UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - CGFloat(tabHeight))
+        mainViewList[0].view.frame.size=CGSizeMake(UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - CGFloat(tabHeight))
+        
+        searchBtnTop.constant=23
         
         showTopBar()
         
@@ -406,16 +519,22 @@ class MainTabBarController: UIViewController, UIScrollViewDelegate, SWRevealView
     func changeToOtherCat(title:String){
         isIndex = false
         
-        
         self.navigationItem.title=title
+        appCloud().currentCatName = title
         
+        changeToOtherCatView()
         //self.navigationController?.navigationBar.hidden = false
         
+        
+    }
+    
+    
+    func changeToOtherCatView(){
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         
-        self.tabItemList[0].hidden = true
-        self.tabItemList[1].hidden = true
-        self.tabItemList[2].hidden = true
+        for i in 0..<self.totalPageNum {
+            self.tabItemList[i].hidden = true
+        }
         
         scrollView.frame=CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - (self.navigationController?.navigationBar.frame.height)!)
         
@@ -424,11 +543,121 @@ class MainTabBarController: UIViewController, UIScrollViewDelegate, SWRevealView
         
         scrollView.scrollEnabled = false
         
+        searchBtnTop.constant = 0
+        
         //NSLog("height1:%f", (self.navigationController?.navigationBar.frame.height)!)
         //NSLog("height2:%f", UIScreen.mainScreen().bounds.height)
-        manViewList[0].view.frame.size=CGSizeMake(UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - (self.navigationController?.navigationBar.frame.height)!)
+        mainViewList[0].view.frame.size=CGSizeMake(UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height - (self.navigationController?.navigationBar.frame.height)!)
         
         self.revealViewController().setFrontViewPosition(FrontViewPosition.Left, animated: true)
+    }
+    
+    func gotoLoginView(){
+        NSLog("gotoLoginView")
+        let loginNavigation = appCloud().userStoryBoard.instantiateViewControllerWithIdentifier("loginNavigation") as!LoginNavigation
+        
+        self.presentViewController(loginNavigation, animated: true, completion: nil)
+        
+        NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "closeRevealView", userInfo: nil, repeats: false)
+        
+        //self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    func gotoUserInfoView(){
+        NSLog("gotoUserInfoView")
+        let userInfoNavigation = appCloud().userStoryBoard.instantiateViewControllerWithIdentifier("userInfoNavigation") as!UserInfoNavigation
+        
+        self.presentViewController(userInfoNavigation, animated: true, completion: nil)
+        
+        NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "closeRevealView", userInfo: nil, repeats: false)
+        
+        //self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    func gotoSettingView(){
+        NSLog("gotoSettingView")
+        let settingViewController = self.storyboard?.instantiateViewControllerWithIdentifier("settingViewController") as!SettingViewController
+        
+        self.presentViewController(settingViewController, animated: true, completion: nil)
+        
+        NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "closeRevealView", userInfo: nil, repeats: false)
+        
+        //self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    func gotoAboutusView(){
+        NSLog("gotoAboutusView")
+        let aboutusViewController = self.storyboard?.instantiateViewControllerWithIdentifier("aboutusViewNavigation") as!AboutusViewNavigation
+        
+        
+        
+        self.presentViewController(aboutusViewController, animated: true, completion: nil)
+        
+        NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "closeRevealView", userInfo: nil, repeats: false)
+        
+        //self.navigationController!.navigationBar.hidden = false
+        //self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    @IBAction func gotoSearchView(){
+        NSLog("gotoSearchView")
+        let searchViewController = self.storyboard?.instantiateViewControllerWithIdentifier("searchNavigation") as!SearchNavigation
+        
+        self.presentViewController(searchViewController, animated: true, completion: nil)
+        
+        NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "closeRevealView", userInfo: nil, repeats: false)
+        
+        //self.navigationController!.navigationBar.hidden = false
+        //self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    func closeRevealView(){
+        self.revealViewController().setFrontViewPosition(FrontViewPosition.Left, animated: true)
+    }
+    
+    //从推送进入指定文章
+    func pushToArticle(sender:NSNotification){
+        
+        //self.navigationController?.popToRootViewControllerAnimated(false)
+        
+        //return
+        
+        let webViewController = self.storyboard?.instantiateViewControllerWithIdentifier("webViewController") as!WebViewController
+        
+        animator = ZFModalTransitionAnimator(modalViewController: webViewController)
+        self.animator.dragable = true
+        self.animator.bounces = false
+        self.animator.behindViewAlpha = 0.7
+        self.animator.behindViewScale = 0.9
+        self.animator.transitionDuration = 0.7
+        self.animator.direction = ZFModalTransitonDirection.Right
+        
+        //设置webViewController
+        webViewController.transitioningDelegate = self.animator
+        
+        webViewController.newsId = sender.object as! String
+        webViewController.newsTitle = "推送文章"
+        webViewController.shareBtn.hidden = false
+        self.navigationController?.pushViewController(webViewController,animated: true)
+
+    }
+    
+    
+    func openNetworkAlert(){
+        self.alert = UIAlertController(title: "", message:"网络不给力哦，请检查移动网络是否可用", preferredStyle: UIAlertControllerStyle.Alert)
+        //alert.addAction(UIAlertAction(title: "ok", style: .Default, handler: nil))
+        self.navigationController!.presentViewController(self.alert, animated: true, completion: nil)
+        
+        NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "closeAlert", userInfo: nil, repeats: false)
+    }
+    
+    func closeAlert(){
+        self.alert.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    //获取总代理
+    func appCloud() -> AppDelegate {
+        return UIApplication.sharedApplication().delegate as! AppDelegate
     }
     
     
