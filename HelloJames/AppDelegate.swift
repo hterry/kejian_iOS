@@ -142,6 +142,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, WeiboSDKDelegate, Tencent
         userInfo=UserInfo()
         userInfo.username = "January"
         
+        //aesTest
         let aes = try!
             "terry".aesEncrypt("bbA3H18lkVbQDfak")
         NSLog("AES:%@",aes)

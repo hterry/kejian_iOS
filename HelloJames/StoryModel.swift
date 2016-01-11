@@ -175,6 +175,7 @@ struct Keys {
     static let launchImgKey = "launchImgKey"
     static let launchTextKey = "launchTextKey"
     static let readNewsId = "readNewsId"
+    
 }
 
 
